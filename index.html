@@ -32,7 +32,7 @@
         /* CONTENT AREA */
         .content-area { padding-top: calc(env(safe-area-inset-top) + 160px); padding-bottom: 150px; padding-left: 20px; padding-right: 20px; }
 
-        /* PREMIUM LIST STYLE */
+        /* COIN ROW STYLE */
         .coin-row { 
             background: rgba(255, 255, 255, 0.03); 
             backdrop-filter: blur(15px); 
@@ -51,6 +51,9 @@
         .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 12px; padding: 12px 24px; border-radius: 16px; box-shadow: 0 4px 15px rgba(255,255,255,0.15); }
         .timer-badge { color: #22d3ee; font-family: monospace; font-size: 11px; font-weight: 800; background: rgba(34, 211, 238, 0.1); padding: 8px 14px; border-radius: 12px; border: 1px solid rgba(34, 211, 238, 0.2); }
         .claim-progress { position: absolute; bottom: 0; left: 0; height: 2px; background: linear-gradient(90deg, transparent, #22d3ee); transition: width 0.5s ease; }
+
+        /* FOOTER COPYRIGHT */
+        .footer-copyright { text-align: center; font-size: 10px; color: #475569; font-weight: 700; letter-spacing: 2px; margin-top: 40px; margin-bottom: 20px; opacity: 0.5; }
 
         /* TAB BAR */
         .tab-bar { position: fixed; bottom: 30px; left: 24px; right: 24px; height: 72px; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(25px); border-radius: 36px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
@@ -83,8 +86,15 @@
         </div>
     </div>
 
-    <div class="content-area" id="mining-page"><div id="coin-list"></div></div>
-    <div class="content-area hidden" id="history-page"><div id="history-list"></div></div>
+    <div class="content-area" id="mining-page">
+        <div id="coin-list"></div>
+        <div class="footer-copyright">©2026 SOBISCO</div>
+    </div>
+    
+    <div class="content-area hidden" id="history-page">
+        <div id="history-list"></div>
+        <div class="footer-copyright">©2026 SOBISCO</div>
+    </div>
 
     <div class="tab-bar">
         <div class="tab-item opacity-20">
@@ -123,7 +133,6 @@
                 const data = await response.json();
                 serverTimeOffset = new Date(data.datetime).getTime() - Date.now();
                 document.getElementById('status-label').innerText = 'CORE_SYNC_OPTIMAL';
-                if (Notification.permission === "default") Notification.requestPermission();
             } catch (e) { document.getElementById('status-label').innerText = 'LOCAL_MODE_ACTIVE'; }
         }
         syncTime();
