@@ -6,6 +6,7 @@
     <title>SOBISCO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* --- CORE STYLE --- */
         * { -webkit-tap-highlight-color: transparent; user-select: none; }
         body { background: #000; color: #ffffff; font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
         .ambient-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, #0f172a 0%, #000 100%); }
@@ -80,9 +81,9 @@
     <div class="content-area hidden" id="history-page"><div id="history-list"></div></div>
 
     <div class="tab-bar">
-        <div class="tab-item opacity-20">WALLET</div>
-        <div class="tab-item active" id="tab-mining" onclick="switchTab('mining')">MINING</div>
-        <div class="tab-item" id="tab-history" onclick="switchTab('history')">HISTORY</div>
+        <div class="tab-item opacity-20"><svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>WALLET</div>
+        <div class="tab-item active" id="tab-mining" onclick="switchTab('mining')"><svg class="w-7 h-7 mx-auto mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z"/></svg>MINING</div>
+        <div class="tab-item" id="tab-history" onclick="switchTab('history')"><svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>HISTORY</div>
     </div>
 
     <script>
@@ -152,10 +153,14 @@
             const now = Date.now() + serverTimeOffset;
             if (currentTab === 'mining') {
                 const container = document.getElementById('coin-list');
+                
+                // SMART SORT: Siap klaim naik ke atas
                 const sorted = [...coins].sort((a, b) => {
                     const nextA = localStorage.getItem(`claim_${a.id}`) || 0;
                     const nextB = localStorage.getItem(`claim_${b.id}`) || 0;
-                    return (now >= nextB) - (now >= nextA);
+                    const readyA = now >= nextA;
+                    const readyB = now >= nextB;
+                    return readyB - readyA; 
                 });
 
                 container.innerHTML = sorted.map(coin => `
@@ -204,17 +209,19 @@
         }
 
         function doClaim(id, url, name) {
-            if (navigator.vibrate) navigator.vibrate(40);
+            if (navigator.vibrate) navigator.vibrate(40); 
             localStorage.setItem(`claim_${id}`, (Date.now() + serverTimeOffset) + 3600000);
             const history = JSON.parse(localStorage.getItem('claim_history') || '[]');
             history.push({ name, time: new Date().toLocaleTimeString() });
             localStorage.setItem('claim_history', JSON.stringify(history.slice(-20)));
+            
             setTimeout(() => {
                 if (Notification.permission === "granted") {
                     new Notification("SOBISCO", { body: `Siap klaim di ${name}!`, icon: "https://cryptologos.cc/logos/bitcoin-btc-logo.png" });
                 }
             }, 3600000);
-            renderUI();
+
+            renderUI(); 
             window.location.href = url;
         }
 
