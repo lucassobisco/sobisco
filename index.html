@@ -6,44 +6,68 @@
     <title>SOBISCO | Digital Asset Core</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- CORE STYLE (ASLI - TETAP TERJAGA) --- */
+        /* --- CORE STYLE --- */
         * { -webkit-tap-highlight-color: transparent; user-select: none; }
         body { background: #000; color: #ffffff; font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
         .ambient-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, #0f172a 0%, #000 100%); }
         
-        /* --- NAV HEADER (DIPERTJAM LOGONYA) --- */
-        .nav-header { position: fixed; top: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 100; padding: env(safe-area-inset-top) 20px 20px 20px; border-bottom: 0.5px solid rgba(255, 255, 255, 0.05); text-align: center; transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        
-        /* LOGO BARU: PREMIUM MONOGRAM S */
-        .brand-logo { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.8)); transition: 0.5s; }
-        
-        .brand-name { font-size: 36px; font-weight: 900; letter-spacing: -1.5px; background: linear-gradient(to bottom, #fff 40%, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-style: italic; transition: 0.5s; line-height: 1; }
-        .slogan { font-size: 9px; font-weight: 700; letter-spacing: 3px; color: #64748b; text-transform: uppercase; margin-top: 8px; transition: 0.4s; }
-        
-        body.scrolled .nav-header { padding-bottom: 12px; background: rgba(0, 0, 0, 0.85); }
-        body.scrolled .brand-name { font-size: 24px; }
-        body.scrolled .brand-logo { width: 34px; height: 34px; }
-        body.scrolled .slogan, body.scrolled .status-bar, body.scrolled .ticker-container { opacity: 0; transform: translateY(-10px); height: 0; margin: 0; overflow: hidden; }
+        /* --- NAV HEADER (GRID SYSTEM) --- */
+        .nav-header { 
+            position: fixed; top: 0; left: 0; right: 0; 
+            background: rgba(0, 0, 0, 0.75); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            z-index: 100; 
+            padding: calc(env(safe-area-inset-top) + 15px) 20px 10px 20px; 
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.08); 
+            transition: 0.4s;
+        }
 
-        /* Ticker & Status (Asli) */
-        .ticker-container { margin-top: 15px; overflow: hidden; white-space: nowrap; width: 100%; height: 30px; background: rgba(34, 211, 238, 0.08); display: flex; align-items: center; border-top: 0.5px solid rgba(34, 211, 238, 0.1); border-bottom: 0.5px solid rgba(34, 211, 238, 0.1); transition: 0.4s; }
-        .ticker-wrapper { display: inline-block; padding-left: 100%; animation: tickerMove 35s linear infinite; font-size: 14px; font-weight: 900; color: #22d3ee; font-family: monospace; }
+        .header-top-layout {
+            display: grid;
+            grid-template-columns: 50px 1fr 50px; /* Logo Kiri, Nama Tengah, Penyeimbang Kanan */
+            align-items: center;
+            width: 100%;
+        }
+        
+        .brand-logo { 
+            width: 42px; height: 42px; 
+            filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.8)); 
+        }
+        
+        .brand-name-container { text-align: center; }
+        
+        /* SILAUAN GOLD ASLI */
+        .brand-name { 
+            font-size: 34px; font-weight: 900; letter-spacing: -1.5px; 
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFD700 50%, #22D3EE 100%); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            font-style: italic; line-height: 1;
+        }
+        
+        .slogan { font-size: 8px; font-weight: 800; letter-spacing: 4px; color: #475569; text-transform: uppercase; text-align: center; margin-top: 4px; }
+        
+        /* TICKER & STATUS */
+        .ticker-container { margin-top: 12px; overflow: hidden; white-space: nowrap; width: calc(100% + 40px); margin-left: -20px; height: 28px; background: rgba(34, 211, 238, 0.06); display: flex; align-items: center; border-top: 0.5px solid rgba(255, 255, 255, 0.03); }
+        .ticker-wrapper { display: inline-block; padding-left: 100%; animation: tickerMove 35s linear infinite; font-size: 13px; font-weight: 800; color: #22d3ee; font-family: monospace; }
         @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        .status-bar { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; transition: 0.3s; }
-        .status-dot { width: 6px; height: 6px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 10px #22d3ee; animation: pulse 2s infinite; }
+        .status-bar { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px; }
+        .status-dot { width: 6px; height: 6px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 8px #22d3ee; animation: pulse 2s infinite; }
         .status-text { font-size: 8px; font-weight: 800; color: #22d3ee; font-family: monospace; }
 
-        /* Content Area (Asli) */
-        .content-area { padding-top: calc(env(safe-area-inset-top) + 200px); padding-bottom: 150px; padding-left: 15px; padding-right: 15px; }
-        .coin-row { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); margin-bottom: 16px; padding: 18px; border-radius: 28px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.07); position: relative; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease; }
-        
-        /* Buttons (Asli) */
-        .btn-open-web { background: rgba(255,255,255,0.05); color: #fff; font-weight: 700; font-size: 10px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); text-transform: uppercase; min-width: 65px; }
-        .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 11px; padding: 12px 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(255,255,255,0.1); min-width: 80px; }
-        .timer-badge { color: #ffd700; font-family: monospace; font-size: 11px; font-weight: 800; background: rgba(0, 0, 0, 0.6); padding: 10px 16px; border-radius: 14px; border: 1px solid #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+        /* --- CONTENT AREA (JARAK DIRAPATKAN) --- */
+        .content-area { padding-top: 185px; padding-bottom: 120px; padding-left: 15px; padding-right: 15px; }
 
-        .tab-bar { position: fixed; bottom: 30px; left: 24px; right: 24px; height: 72px; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(25px); border-radius: 36px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
+        /* UI COMPONENTS */
+        .coin-row { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); margin-bottom: 14px; padding: 16px; border-radius: 24px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.06); }
+        
+        /* BUTTONS */
+        .btn-open-web { background: rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 10px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); text-transform: uppercase; margin-right: 6px; }
+        .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 11px; padding: 12px 20px; border-radius: 14px; min-width: 85px; box-shadow: 0 4px 15px rgba(255,255,255,0.15); }
+        .timer-badge { color: #ffd700; font-family: monospace; font-size: 11px; font-weight: 800; background: rgba(0, 0, 0, 0.6); padding: 12px 16px; border-radius: 14px; border: 1px solid #ffd700; min-width: 85px; text-align: center; }
+
+        /* TAB BAR */
+        .tab-bar { position: fixed; bottom: 30px; left: 24px; right: 24px; height: 70px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border-radius: 35px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
         .tab-item { text-align: center; color: #475569; font-size: 10px; font-weight: 700; cursor: pointer; }
         .tab-item.active { color: #fff; }
         .hidden { display: none; }
@@ -54,46 +78,43 @@
     <div class="ambient-bg"></div>
 
     <div class="nav-header">
-        <div class="brand-logo">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="logoS" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#22d3ee" />
-                        <stop offset="100%" style="stop-color:#0891b2" />
-                    </linearGradient>
-                </defs>
-                <path d="M30 35 C 30 22, 70 22, 70 35 C 70 47, 30 53, 30 65 C 30 78, 70 78, 70 65" 
-                      stroke="url(#logoS)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
-                <circle cx="50" cy="50" r="4" fill="white">
-                    <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" />
-                </circle>
-            </svg>
-        </div>
+        <div class="header-top-layout">
+            <div class="brand-logo">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="logoS" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#22d3ee"/><stop offset="100%" style="stop-color:#0891b2"/></linearGradient></defs>
+                    <path d="M30 35 C 30 22, 70 22, 70 35 C 70 47, 30 53, 30 65 C 30 78, 70 78, 70 65" stroke="url(#logoS)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="50" cy="50" r="4" fill="white"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" /></circle>
+                </svg>
+            </div>
+            
+            <div class="brand-name-container">
+                <h1 class="brand-name">SOBISCO</h1>
+            </div>
+            <div></div> </div>
         
-        <h1 class="brand-name">SOBISCO</h1>
         <p class="slogan">Digital Asset Core</p>
-        
-        <div class="ticker-container"><div id="ticker-wrapper" class="ticker-wrapper">FETCHING_MARKET_DATA...</div></div>
-        <div class="status-bar"><div class="status-dot"></div><span class="status-text" id="status-label">NOTIF_REMINDER_READY</span></div>
+        <div class="ticker-container"><div id="ticker-wrapper" class="ticker-wrapper">FETCHING_LIVE_MARKET_DATA...</div></div>
+        <div class="status-bar"><div class="status-dot"></div><span class="status-text">SYSTEM_ACTIVE_READY</span></div>
     </div>
 
     <div class="content-area" id="mining-page"><div id="coin-list"></div></div>
-    <div class="content-area hidden" id="history-page"><div id="history-list"></div></div>
+    
+    <div class="content-area hidden" id="history-page">
+        <div class="px-4 mb-4"><h2 class="text-xl font-black italic">MINING LOGS</h2></div>
+        <div id="history-list"></div>
+    </div>
 
     <div class="tab-bar">
         <div class="tab-item opacity-20"><svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>WALLET</div>
-        <div class="tab-item active" onclick="switchTab('mining')">
-            <svg class="w-7 h-7 mx-auto mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z"/></svg>
-            MINING
+        <div class="tab-item active" id="tab-mining" onclick="switchTab('mining')">
+            <svg class="w-7 h-7 mx-auto mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z"/></svg>MINING
         </div>
-        <div class="tab-item" onclick="switchTab('history')">
-            <svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            HISTORY
+        <div class="tab-item" id="tab-history" onclick="switchTab('history')">
+            <svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>HISTORY
         </div>
     </div>
 
     <script>
-        /* --- SEMUA LOGIKA JAVASCRIPT ASLI (TIDAK DIRUBAH) --- */
         const coins = [
             { id: 'btc', name: 'Bitcoin', host: 'freebitco.in', logo: 'bitcoin-btc', cgId: 'bitcoin' },
             { id: 'sol', name: 'Solana', host: 'solpick.io', logo: 'solana-sol', cgId: 'solana' },
@@ -104,11 +125,6 @@
             { id: 'trx', name: 'Tron', host: 'tronpick.io', logo: 'tron-trx', cgId: 'tron' },
             { id: 'doge', name: 'Dogecoin', host: 'dogepick.io', logo: 'dogecoin-doge', cgId: 'dogecoin' }
         ];
-
-        let serverTimeOffset = 0;
-        let notifiedCoins = new Set();
-
-        function requestNotif() { if ("Notification" in window) { Notification.requestPermission(); } }
 
         async function updateMarketPrices() {
             try {
@@ -121,78 +137,73 @@
             } catch (e) {}
         }
 
-        function handleInteractivity(e) {
-            if (!e) return;
-            const rows = document.querySelectorAll('.coin-row');
-            rows.forEach(row => {
-                const rect = row.getBoundingClientRect();
-                const distance = Math.abs((e.clientY || window.innerHeight/2) - (rect.top + rect.height / 2));
-                const ratio = Math.pow(1 - Math.min(distance / 300, 1), 2);
-                row.style.transform = `scale(${0.94 + (ratio * 0.12)})`;
-                row.style.opacity = 0.5 + (ratio * 0.5);
-            });
-        }
-
-        window.addEventListener('scroll', () => { document.body.classList.toggle('scrolled', window.scrollY > 40); });
-
         function renderUI() {
-            const now = Date.now() + serverTimeOffset;
+            const now = Date.now();
             const container = document.getElementById('coin-list');
             const sorted = [...coins].sort((a, b) => {
                 const nextA = localStorage.getItem(`claim_${a.id}`) || 0;
                 const nextB = localStorage.getItem(`claim_${b.id}`) || 0;
                 return (now >= nextB) - (now >= nextA); 
             });
+
             container.innerHTML = sorted.map(coin => `
                 <div class="coin-row">
                     <div class="flex items-center gap-3">
                         <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-8 h-8">
                         <div><h2 class="font-bold text-[15px]">${coin.name}</h2><p class="text-[9px] text-slate-500 font-bold uppercase">${coin.host}</p></div>
                     </div>
-                    <div class="flex items-center gap-3" id="btn-area-${coin.id}"></div>
+                    <div class="flex items-center" id="btn-area-${coin.id}"></div>
                 </div>
             `).join('');
             updateDynamic();
         }
 
         function updateDynamic() {
-            const now = Date.now() + serverTimeOffset;
+            const now = Date.now();
             coins.forEach(coin => {
                 const next = localStorage.getItem(`claim_${coin.id}`);
                 const btnArea = document.getElementById(`btn-area-${coin.id}`);
                 if (btnArea) {
+                    // Tombol Open Selalu Ada (Normal)
+                    const openBtn = `<button onclick="window.open('https://${coin.host}', '_blank')" class="btn-open-web">Open</button>`;
+                    
                     if (next && now < next) {
                         const d = next - now;
-                        btnArea.innerHTML = `<div class="timer-badge">${Math.floor(d/60000)}m ${Math.floor((d%60000)/1000)}s</div>`;
+                        btnArea.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(d/60000)}m ${Math.floor((d%60000)/1000)}s</div>`;
                     } else {
-                        if (next && !notifiedCoins.has(coin.id)) { sendNotification(coin.name); notifiedCoins.add(coin.id); }
-                        btnArea.innerHTML = `<button onclick="window.open('https://${coin.host}', '_blank')" class="btn-open-web">Open</button><button onclick="doClaimOnly('${coin.id}','${coin.name}')" class="btn-claim">Klaim</button>`;
+                        btnArea.innerHTML = openBtn + `<button onclick="doClaimAndOpen('${coin.id}','${coin.host}')" class="btn-claim">Klaim</button>`;
                     }
                 }
             });
         }
 
-        function sendNotification(name) {
-            if (Notification.permission === "granted") {
-                new Notification("?? SOBISCO: Waktunya Klaim!", { body: `${name} sudah siap dipanen, Bos. Gas sekarang!`, icon: "https://cryptologos.cc/logos/bitcoin-btc-logo.png" });
-                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-            }
-        }
-
-        function doClaimOnly(id, name) {
-            localStorage.setItem(`claim_${id}`, (Date.now() + serverTimeOffset) + 3600000);
-            notifiedCoins.delete(id);
+        // FUNGSI GANDA: KLAIM + BUKA WEB
+        function doClaimAndOpen(id, host) {
+            localStorage.setItem(`claim_${id}`, Date.now() + 3600000);
+            window.open(`https://${host}`, '_blank');
             renderUI();
         }
 
         function switchTab(t) {
             document.getElementById('mining-page').classList.toggle('hidden', t !== 'mining');
             document.getElementById('history-page').classList.toggle('hidden', t !== 'history');
-            document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            document.getElementById('tab-mining').classList.toggle('active', t === 'mining');
+            document.getElementById('tab-history').classList.toggle('active', t === 'history');
         }
 
-        window.onload = () => { requestNotif(); updateMarketPrices(); renderUI(); setInterval(updateDynamic, 1000); setInterval(updateMarketPrices, 60000); };
+        window.onload = () => { 
+            updateMarketPrices(); renderUI(); setInterval(updateDynamic, 1000); setInterval(updateMarketPrices, 60000); 
+        };
+
+        function handleInteractivity(e) {
+            const rows = document.querySelectorAll('.coin-row');
+            rows.forEach(row => {
+                const rect = row.getBoundingClientRect();
+                const dist = Math.abs((e.clientY || window.innerHeight/2) - (rect.top + rect.height/2));
+                const ratio = Math.pow(1 - Math.min(dist/300, 1), 2);
+                row.style.transform = `scale(${0.96 + (ratio*0.08)})`;
+            });
+        }
     </script>
 </body>
 </html>
