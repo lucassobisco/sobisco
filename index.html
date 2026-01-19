@@ -2,32 +2,23 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>SOBISCO | Digital Asset Core</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- CORE STYLE --- */
-        * { -webkit-tap-highlight-color: transparent; user-select: none; }
+        /* --- CORE STYLE (SESUAI PERSETUJUAN) --- */
+        * { -webkit-tap-highlight-color: transparent; user-select: none; box-sizing: border-box; }
         body { background: #000; color: #ffffff; font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
         .ambient-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, #0f172a 0%, #000 100%); }
         
-        /* --- NAV HEADER (GRID SYSTEM) --- */
         .nav-header { 
             position: fixed; top: 0; left: 0; right: 0; 
-            background: rgba(0, 0, 0, 0.75); 
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
-            z-index: 100; 
-            padding: calc(env(safe-area-inset-top) + 15px) 20px 10px 20px; 
+            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            z-index: 100; padding: calc(env(safe-area-inset-top) + 15px) 20px 10px 20px; 
             border-bottom: 0.5px solid rgba(255, 255, 255, 0.08); 
         }
 
-        .header-top-layout {
-            display: grid;
-            grid-template-columns: 50px 1fr 50px;
-            align-items: center;
-            width: 100%;
-        }
-        
+        .header-top-layout { display: grid; grid-template-columns: 50px 1fr 50px; align-items: center; width: 100%; }
         .brand-logo { width: 42px; height: 42px; filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.8)); }
         .brand-name-container { text-align: center; }
         .brand-name { 
@@ -38,24 +29,41 @@
         }
         
         .slogan { font-size: 8px; font-weight: 800; letter-spacing: 4px; color: #475569; text-transform: uppercase; text-align: center; margin-top: 4px; }
-        
-        .ticker-container { margin-top: 12px; overflow: hidden; white-space: nowrap; width: calc(100% + 40px); margin-left: -20px; height: 28px; background: rgba(34, 211, 238, 0.06); display: flex; align-items: center; border-top: 0.5px solid rgba(255, 255, 255, 0.03); }
+        .ticker-container { margin-top: 12px; overflow: hidden; white-space: nowrap; width: calc(100% + 40px); margin-left: -20px; height: 28px; background: rgba(34, 211, 238, 0.06); display: flex; align-items: center; }
         .ticker-wrapper { display: inline-block; padding-left: 100%; animation: tickerMove 35s linear infinite; font-size: 13px; font-weight: 800; color: #22d3ee; font-family: monospace; }
         @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        .status-bar { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px; }
-        .status-dot { width: 6px; height: 6px; background: #22d3ee; border-radius: 50%; box-shadow: 0 0 8px #22d3ee; animation: pulse 2s infinite; }
-        .status-text { font-size: 8px; font-weight: 800; color: #22d3ee; font-family: monospace; }
-
-        /* --- CONTENT AREA --- */
-        .content-area { padding-top: 185px; padding-bottom: 120px; padding-left: 15px; padding-right: 15px; }
-        .coin-row { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); margin-bottom: 14px; padding: 16px; border-radius: 24px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.06); transition: 0.4s; }
+        /* --- FIX TOMBOL HILANG DI HP --- */
+        .content-area { padding-top: 185px; padding-bottom: 120px; padding-left: 10px; padding-right: 10px; }
         
-        .btn-open-web { background: rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 10px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); text-transform: uppercase; margin-right: 6px; }
-        .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 11px; padding: 12px 20px; border-radius: 14px; min-width: 85px; box-shadow: 0 4px 15px rgba(255,255,255,0.15); }
-        .timer-badge { color: #ffd700; font-family: monospace; font-size: 11px; font-weight: 800; background: rgba(0, 0, 0, 0.6); padding: 12px 16px; border-radius: 14px; border: 1px solid #ffd700; min-width: 85px; text-align: center; }
+        .coin-row { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(15px); 
+            margin-bottom: 12px; 
+            padding: 12px; 
+            border-radius: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            width: 100%; /* Paksa lebar penuh layar */
+        }
 
-        .tab-bar { position: fixed; bottom: 30px; left: 24px; right: 24px; height: 70px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border-radius: 35px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
+        /* Batasi info kiri agar tidak mendorong tombol keluar */
+        .coin-info-wrapper { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+        .coin-text { min-width: 0; flex: 1; }
+        .coin-text h2 { font-size: 14px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .coin-text p { font-size: 8px; color: #64748b; font-weight: bold; overflow: hidden; text-overflow: ellipsis; }
+
+        /* Kunci tombol di kanan layar */
+        .btn-action-wrapper { display: flex; align-items: center; gap: 4px; flex-shrink: 0; margin-left: 5px; }
+        
+        /* Kecilkan sedikit padding tombol khusus untuk layar HP */
+        .btn-open-web { background: rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 9px; padding: 10px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); text-transform: uppercase; white-space: nowrap; }
+        .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 10px; padding: 10px 14px; border-radius: 10px; min-width: 70px; text-align: center; white-space: nowrap; }
+        .timer-badge { color: #ffd700; font-family: monospace; font-size: 10px; font-weight: 800; background: rgba(0, 0, 0, 0.6); padding: 10px 10px; border-radius: 10px; border: 1px solid #ffd700; min-width: 70px; text-align: center; white-space: nowrap; }
+
+        .tab-bar { position: fixed; bottom: 25px; left: 20px; right: 20px; height: 65px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border-radius: 35px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
         .tab-item { text-align: center; color: #475569; font-size: 10px; font-weight: 700; cursor: pointer; }
         .tab-item.active { color: #fff; }
         .hidden { display: none; }
@@ -68,34 +76,22 @@
     <div class="nav-header">
         <div class="header-top-layout">
             <div class="brand-logo">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs><linearGradient id="logoS" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#22d3ee"/><stop offset="100%" style="stop-color:#0891b2"/></linearGradient></defs>
-                    <path d="M30 35 C 30 22, 70 22, 70 35 C 70 47, 30 53, 30 65 C 30 78, 70 78, 70 65" stroke="url(#logoS)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
-                    <circle cx="50" cy="50" r="4" fill="white"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" /></circle>
-                </svg>
+                <svg viewBox="0 0 100 100" fill="none"><defs><linearGradient id="logoS" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#22d3ee"/><stop offset="100%" style="stop-color:#0891b2"/></linearGradient></defs><path d="M30 35 C 30 22, 70 22, 70 35 C 70 47, 30 53, 30 65 C 30 78, 70 78, 70 65" stroke="url(#logoS)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" /></svg>
             </div>
             <div class="brand-name-container"><h1 class="brand-name">SOBISCO</h1></div>
             <div></div>
         </div>
         <p class="slogan">Digital Asset Core</p>
         <div class="ticker-container"><div id="ticker-wrapper" class="ticker-wrapper">FETCHING_LIVE_MARKET_DATA...</div></div>
-        <div class="status-bar"><div class="status-dot"></div><span class="status-text">NOTIF_SYSTEM_ACTIVE</span></div>
     </div>
 
     <div class="content-area" id="mining-page"><div id="coin-list"></div></div>
-    <div class="content-area hidden" id="history-page">
-        <div class="px-4 mb-4"><h2 class="text-xl font-black italic">HISTORY LOGS</h2></div>
-        <div id="history-list"></div>
-    </div>
+    <div class="content-area hidden" id="history-page"><div id="history-list"></div></div>
 
     <div class="tab-bar">
         <div class="tab-item opacity-20"><svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>WALLET</div>
-        <div class="tab-item active" id="tab-mining" onclick="switchTab('mining')">
-            <svg class="w-7 h-7 mx-auto mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z"/></svg>MINING
-        </div>
-        <div class="tab-item" id="tab-history" onclick="switchTab('history')">
-            <svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>HISTORY
-        </div>
+        <div class="tab-item active" id="tab-mining" onclick="switchTab('mining')"><svg class="w-7 h-7 mx-auto mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z"/></svg>MINING</div>
+        <div class="tab-item" id="tab-history" onclick="switchTab('history')"><svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>HISTORY</div>
     </div>
 
     <script>
@@ -112,50 +108,25 @@
 
         let notifiedCoins = new Set();
 
-        // RE-AKTIVASI NOTIFIKASI
-        function requestNotifPermission() {
-            if ("Notification" in window) {
-                Notification.requestPermission();
-            }
-        }
-
-        function sendClaimNotif(name) {
-            if (Notification.permission === "granted") {
-                new Notification("SOBISCO: Waktunya Klaim!", {
-                    body: `${name} sudah siap dipanen, Bos. Gas sekarang!`,
-                    icon: "https://cryptologos.cc/logos/bitcoin-btc-logo.png"
-                });
-                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-            }
-        }
-
-        async function updateMarketPrices() {
-            try {
-                const ids = coins.map(c => c.cgId).join(',');
-                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`);
-                const data = await res.json();
-                const ticker = document.getElementById('ticker-wrapper');
-                const content = coins.map(c => `${c.id.toUpperCase()}: $${data[c.cgId].usd < 1 ? data[c.cgId].usd.toFixed(4) : data[c.cgId].usd.toLocaleString()} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`).join('');
-                ticker.innerHTML = content + content;
-            } catch (e) {}
-        }
-
         function renderUI() {
             const now = Date.now();
             const container = document.getElementById('coin-list');
             const sorted = [...coins].sort((a, b) => {
-                const nextA = localStorage.getItem(`claim_${a.id}`) || 0;
-                const nextB = localStorage.getItem(`claim_${b.id}`) || 0;
-                return (now >= nextB) - (now >= nextA); 
+                const nA = localStorage.getItem(`claim_${a.id}`) || 0;
+                const nB = localStorage.getItem(`claim_${b.id}`) || 0;
+                return (now >= nB) - (now >= nA); 
             });
 
             container.innerHTML = sorted.map(coin => `
                 <div class="coin-row">
-                    <div class="flex items-center gap-3">
-                        <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-8 h-8">
-                        <div><h2 class="font-bold text-[15px]">${coin.name}</h2><p class="text-[9px] text-slate-500 font-bold uppercase">${coin.host}</p></div>
+                    <div class="coin-info-wrapper">
+                        <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-8 h-8 flex-shrink-0">
+                        <div class="coin-text">
+                            <h2>${coin.name}</h2>
+                            <p>${coin.host}</p>
+                        </div>
                     </div>
-                    <div class="flex items-center" id="btn-area-${coin.id}"></div>
+                    <div class="btn-action-wrapper" id="btn-area-${coin.id}"></div>
                 </div>
             `).join('');
             updateDynamic();
@@ -165,19 +136,14 @@
             const now = Date.now();
             coins.forEach(coin => {
                 const next = localStorage.getItem(`claim_${coin.id}`);
-                const btnArea = document.getElementById(`btn-area-${coin.id}`);
-                if (btnArea) {
+                const area = document.getElementById(`btn-area-${coin.id}`);
+                if (area) {
                     const openBtn = `<button onclick="window.open('https://${coin.host}', '_blank')" class="btn-open-web">Open</button>`;
                     if (next && now < next) {
                         const d = next - now;
-                        btnArea.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(d/60000)}m ${Math.floor((d%60000)/1000)}s</div>`;
+                        area.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(d/60000)}m ${Math.floor((d%60000)/1000)}s</div>`;
                     } else {
-                        // Jika sudah waktunya dan belum dinotif
-                        if (next && !notifiedCoins.has(coin.id)) {
-                            sendClaimNotif(coin.name);
-                            notifiedCoins.add(coin.id);
-                        }
-                        btnArea.innerHTML = openBtn + `<button onclick="doClaimAndOpen('${coin.id}','${coin.host}')" class="btn-claim">Klaim</button>`;
+                        area.innerHTML = openBtn + `<button onclick="doClaimAndOpen('${coin.id}','${coin.host}')" class="btn-claim">Klaim</button>`;
                     }
                 }
             });
@@ -185,7 +151,6 @@
 
         function doClaimAndOpen(id, host) {
             localStorage.setItem(`claim_${id}`, Date.now() + 3600000);
-            notifiedCoins.delete(id); // Reset status notif agar bisa bunyi lagi jam depan
             window.open(`https://${host}`, '_blank');
             renderUI();
         }
@@ -197,21 +162,24 @@
             document.getElementById('tab-history').classList.toggle('active', t === 'history');
         }
 
-        window.onload = () => { 
-            requestNotifPermission();
-            updateMarketPrices(); 
-            renderUI(); 
-            setInterval(updateDynamic, 1000); 
-            setInterval(updateMarketPrices, 60000); 
-        };
+        async function updateMarketPrices() {
+            try {
+                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins.map(c=>c.cgId).join(',')}&vs_currencies=usd`);
+                const data = await res.json();
+                const ticker = document.getElementById('ticker-wrapper');
+                ticker.innerText = coins.map(c => `${c.id.toUpperCase()}: $${data[c.cgId].usd}`).join('   •   ');
+            } catch (e) {}
+        }
 
+        window.onload = () => { if ("Notification" in window) Notification.requestPermission(); updateMarketPrices(); renderUI(); setInterval(updateDynamic, 1000); };
+        
         function handleInteractivity(e) {
             const rows = document.querySelectorAll('.coin-row');
             rows.forEach(row => {
                 const rect = row.getBoundingClientRect();
                 const dist = Math.abs((e.clientY || window.innerHeight/2) - (rect.top + rect.height/2));
                 const ratio = Math.pow(1 - Math.min(dist/300, 1), 2);
-                row.style.transform = `scale(${0.96 + (ratio*0.08)})`;
+                row.style.transform = `scale(${0.98 + (ratio*0.04)})`;
             });
         }
     </script>
