@@ -6,12 +6,12 @@
     <title>SOBISCO | Digital Asset Core</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- FOUNDATION & RESET --- */
+        /* --- FOUNDATION & RESET (PONDASI AWAL) --- */
         * { -webkit-tap-highlight-color: transparent; user-select: none; box-sizing: border-box; }
         body { background: #000; color: #ffffff; font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
         .ambient-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, #0f172a 0%, #000 100%); }
         
-        /* --- HEADER MORPHING (KODE A + B) --- */
+        /* --- HEADER MORPHING (PONDASI AWAL) --- */
         .nav-header { 
             position: fixed; top: 0; left: 0; right: 0; 
             background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
@@ -36,12 +36,11 @@
         }
         .slogan { font-size: 8px; font-weight: 800; letter-spacing: 4px; color: #475569; text-transform: uppercase; text-align: center; margin-top: 4px; transition: 0.3s; }
         
-        /* TICKER */
         .ticker-container { margin-top: 12px; overflow: hidden; white-space: nowrap; width: calc(100% + 40px); margin-left: -20px; height: 28px; background: rgba(34, 211, 238, 0.06); display: flex; align-items: center; }
         .ticker-wrapper { display: inline-block; padding-left: 100%; animation: tickerMove 40s linear infinite; font-size: 11px; font-weight: 800; color: #22d3ee; font-family: monospace; }
         @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* --- CONTENT AREA & SCROLL ANIMATION --- */
+        /* --- CONTENT AREA & SCROLL (PONDASI AWAL) --- */
         .content-area { padding-top: 210px; padding-bottom: 120px; padding-left: 15px; padding-right: 15px; }
         .coin-row { 
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); margin-bottom: 16px; 
@@ -51,20 +50,23 @@
             will-change: transform, opacity;
         }
 
-        /* PROGRESS BAR (KODE A) */
-        .claim-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: linear-gradient(90deg, transparent, #22d3ee, #ffd700); transition: width 0.5s linear; }
+        /* UPGRADE: URGENCY PROGRESS BAR & BREATH GLOW */
+        .claim-progress { position: absolute; bottom: 0; left: 0; height: 3px; transition: width 0.5s linear, background 0.5s ease; }
+        .row-ready { border: 1px solid rgba(255, 215, 0, 0.3) !important; animation: breathGlow 3s ease-in-out infinite; }
+        @keyframes breathGlow { 0%, 100% { box-shadow: inset 0 0 10px rgba(255,215,0,0.05); } 50% { box-shadow: inset 0 0 25px rgba(255,215,0,0.15); } }
 
         .coin-info-wrapper { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
         .coin-text h2 { font-size: 16px; font-weight: 800; }
         .coin-text p { font-size: 9px; color: #64748b; font-weight: bold; text-transform: uppercase; }
+        .est-time { font-size: 8px; color: #ffd700; opacity: 0.8; margin-top: 2px; display: block; }
 
-        /* BUTTONS (KODE B UPGRADE) */
+        /* BUTTONS (PONDASI AWAL) */
         .btn-action-wrapper { display: flex; align-items: center; gap: 6px; flex-shrink: 0; margin-left: 10px; z-index: 10; }
         .btn-open-web { background: rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 9px; padding: 11px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); text-transform: uppercase; }
         .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 11px; padding: 11px 18px; border-radius: 12px; min-width: 80px; text-align: center; cursor: pointer; }
         .timer-badge { color: #ffd700; font-family: monospace; font-size: 11px; font-weight: 800; background: rgba(0, 0, 0, 0.6); padding: 11px 12px; border-radius: 12px; border: 1px solid #ffd700; min-width: 80px; text-align: center; }
 
-        /* FOOTER & TABS */
+        /* FOOTER & TABS (PONDASI AWAL) */
         .footer-brand { text-align: center; padding: 40px 0; opacity: 0.4; }
         .tab-bar { position: fixed; bottom: 30px; left: 24px; right: 24px; height: 70px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
         .tab-item { text-align: center; color: #475569; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
@@ -122,20 +124,23 @@
 
         let serverTimeOffset = 0;
         let lastMouseY = window.innerHeight / 2;
+        let lastReadyCount = -1;
         const chime = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
 
-        // AUDIT: SINKRONISASI WAKTU SERVER
+        // CORE UPGRADE: AUTO-SYNC SERVER TIME
         async function syncServerTime() {
             try {
+                const start = Date.now();
                 const res = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC');
                 const data = await res.json();
-                serverTimeOffset = new Date(data.datetime).getTime() - Date.now();
+                const end = Date.now();
+                const lat = (end - start) / 2;
+                serverTimeOffset = new Date(data.datetime).getTime() - (end - lat);
                 document.getElementById('status-label').innerText = 'CORE_SYNC_OPTIMAL';
                 updatePrices();
             } catch (e) { document.getElementById('status-label').innerText = 'LOCAL_TIME_ACTIVE'; }
         }
 
-        // AUDIT: TICKER LIVE DATA
         async function updatePrices() {
             try {
                 const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins.map(c=>c.cgId).join(',')}&vs_currencies=usd`);
@@ -146,7 +151,6 @@
             } catch (e) {}
         }
 
-        // AUDIT: INTERAKSI SCROLL SCALE
         function handleInteractivity(e) {
             if (!e) return;
             lastMouseY = e.clientY || lastMouseY;
@@ -166,20 +170,28 @@
             });
         }
 
-        // AUDIT: LOGIKA KLAIM & HISTORY
+        // UPGRADE: SMART SORTING & TAB NOTIFICATION
         function renderUI() {
             const now = Date.now() + serverTimeOffset;
             const sorted = [...coins].sort((a, b) => {
-                const nA = localStorage.getItem(`claim_${a.id}`) || 0;
-                const nB = localStorage.getItem(`claim_${b.id}`) || 0;
-                return (now >= nB) - (now >= nA);
+                const nA = parseInt(localStorage.getItem(`claim_${a.id}`)) || 0;
+                const nB = parseInt(localStorage.getItem(`claim_${b.id}`)) || 0;
+                const readyA = now >= nA;
+                const readyB = now >= nB;
+                if (readyA && !readyB) return -1;
+                if (!readyA && readyB) return 1;
+                return nA - nB;
             });
 
             document.getElementById('coin-list').innerHTML = sorted.map(coin => `
                 <div class="coin-row" id="row-${coin.id}">
                     <div class="coin-info-wrapper">
                         <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10">
-                        <div class="coin-text"><h2>${coin.name}</h2><p>${coin.host}</p></div>
+                        <div class="coin-text">
+                            <h2>${coin.name}</h2>
+                            <p>${coin.host}</p>
+                            <span class="est-time" id="est-${coin.id}"></span>
+                        </div>
                     </div>
                     <div class="btn-action-wrapper" id="area-${coin.id}"></div>
                     <div class="claim-progress" id="prog-${coin.id}"></div>
@@ -190,38 +202,76 @@
 
         function updateTimers() {
             const now = Date.now() + serverTimeOffset;
+            let readyCount = 0;
+
             coins.forEach(coin => {
-                const next = localStorage.getItem(`claim_${coin.id}`);
+                const next = parseInt(localStorage.getItem(`claim_${coin.id}`)) || 0;
                 const area = document.getElementById(`area-${coin.id}`);
                 const prog = document.getElementById(`prog-${coin.id}`);
-                const openBtn = `<button onclick="window.open('https://${coin.host}', '_blank')" class="btn-open-web">Open</button>`;
+                const row = document.getElementById(`row-${coin.id}`);
+                const est = document.getElementById(`est-${coin.id}`);
+                
+                const openBtn = `<button onclick="secureOpen('https://${coin.host}')" class="btn-open-web">Open</button>`;
 
                 if (next && now < next) {
                     const diff = next - now;
+                    const percent = (diff / 3600000) * 100;
+                    const date = new Date(next);
+                    
                     area.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(diff/60000)}m ${Math.floor((diff%60000)/1000)}s</div>`;
-                    if (prog) prog.style.width = (diff / 3600000 * 100) + '%';
+                    if (est) est.innerText = `Matang jam ${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`;
+                    if (row) row.classList.remove('row-ready');
+                    
+                    if (prog) {
+                        prog.style.width = percent + '%';
+                        // UPGRADE: URGENCY PROGRESS BAR
+                        if (percent > 50) prog.style.background = 'linear-gradient(90deg, transparent, #22d3ee)';
+                        else if (percent > 10) prog.style.background = 'linear-gradient(90deg, transparent, #f97316)';
+                        else prog.style.background = 'linear-gradient(90deg, transparent, #ffd700)';
+                    }
                 } else {
+                    readyCount++;
                     area.innerHTML = openBtn + `<button onclick="claim('${coin.id}','${coin.name}','${coin.host}')" class="btn-claim">Klaim</button>`;
-                    if (prog) prog.style.width = '0%';
+                    if (prog) {
+                        prog.style.width = '100%';
+                        prog.style.background = '#ffd700';
+                    }
+                    if (est) est.innerText = 'STATUS: READY TO CORE';
+                    if (row) row.classList.add('row-ready');
                 }
             });
+
+            // UPGRADE: QUICK VIEW TAB & AUDIO NOTIF
+            document.title = readyCount > 0 ? `(${readyCount}) SOBISCO` : 'SOBISCO | DAC';
+            if (readyCount > lastReadyCount && lastReadyCount !== -1) {
+                chime.play().catch(()=>{});
+            }
+            lastReadyCount = readyCount;
+        }
+
+        // UPGRADE: HUMANIZER DELAY & HAPTIC DISTINCTION
+        function secureOpen(url) {
+            if (navigator.vibrate) navigator.vibrate(30); // Ketukan pendek
+            const delay = 500 + Math.random() * 1000;
+            setTimeout(() => window.open(url, '_blank'), delay);
         }
 
         function claim(id, name, host) {
-            // Haptic & Sound Audit
-            if (navigator.vibrate) navigator.vibrate(50);
+            if (navigator.vibrate) navigator.vibrate([50, 30, 50]); // Ketukan ganda mantap
             chime.play().catch(()=>{});
 
             const nextTime = Date.now() + serverTimeOffset + 3600000;
             localStorage.setItem(`claim_${id}`, nextTime);
 
-            // History Audit
             const hist = JSON.parse(localStorage.getItem('claim_history') || '[]');
             hist.push({ name, time: new Date().toLocaleTimeString(), date: new Date().toLocaleDateString() });
             localStorage.setItem('claim_history', JSON.stringify(hist.slice(-50)));
 
-            window.open(`https://${host}`, '_blank');
-            renderUI();
+            const delay = 500 + Math.random() * 1000;
+            setTimeout(() => {
+                window.open(`https://${host}`, '_blank');
+                renderUI();
+            }, delay);
         }
 
         function renderHistory() {
@@ -242,7 +292,6 @@
             if (t === 'history') renderHistory();
         }
 
-        // SCROLL LISTENERS
         window.addEventListener('scroll', () => {
             if (window.scrollY > 40) document.body.classList.add('scrolled');
             else document.body.classList.remove('scrolled');
