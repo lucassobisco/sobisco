@@ -40,7 +40,7 @@
         .ticker-wrapper { display: inline-block; padding-left: 100%; animation: tickerMove 40s linear infinite; font-size: 11px; font-weight: 800; color: #22d3ee; font-family: monospace; }
         @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* --- CONTENT AREA & PREMIUM FLOW --- */
+        /* --- CONTENT AREA & SECTIONS --- */
         .content-area { padding-top: 210px; padding-bottom: 120px; padding-left: 15px; padding-right: 15px; }
         .zone-header { font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #64748b; margin: 25px 0 15px 10px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
         .zone-header.ready { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
@@ -49,7 +49,7 @@
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             margin-bottom: 16px; padding: 18px; border-radius: 26px; display: flex; align-items: center; justify-content: space-between; 
             border: 1px solid rgba(255, 255, 255, 0.06); position: relative; overflow: hidden;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .claim-progress { position: absolute; bottom: 0; left: 0; height: 3px; transition: width 0.5s linear, background 0.5s ease; }
@@ -65,18 +65,15 @@
         .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 11px; padding: 11px 18px; border-radius: 12px; min-width: 80px; text-align: center; cursor: pointer; border: none; }
         .timer-badge { color: #ffd700; font-family: monospace; font-size: 11px; font-weight: 800; background: rgba(0, 0, 0, 0.6); padding: 11px 12px; border-radius: 12px; border: 1px solid #ffd700; min-width: 80px; text-align: center; }
 
-        /* FOOTER BRANDING */
         .footer-brand { text-align: center; padding: 40px 0; opacity: 0.5; }
         .footer-brand p { font-size: 10px; letter-spacing: 2px; font-weight: 800; margin-bottom: 4px; }
         .footer-brand .email-text { font-size: 9px; color: #22d3ee; font-family: monospace; letter-spacing: 1px; }
 
-        /* TABS */
         .tab-bar { position: fixed; bottom: 30px; left: 24px; right: 24px; height: 70px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
         .tab-item { text-align: center; color: #475569; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
         .tab-item.active { color: #22d3ee; transform: translateY(-5px); }
         .hidden { display: none; }
 
-        /* FLOATING BUBBLE */
         #claim-bubble {
             position: fixed; bottom: 120px; right: 24px; background: #ffd700; color: #000;
             padding: 12px 20px; border-radius: 50px; font-weight: 900; font-size: 10px;
@@ -136,7 +133,6 @@
 
     <script>
         const coins = [
-            // GROUP ELITE (LAMA)
             { id: 'btc', name: 'Bitcoin', host: 'freebitco.in', logo: 'bitcoin-btc', cgId: 'bitcoin' },
             { id: 'sol', name: 'Solana', host: 'solpick.io', logo: 'solana-sol', cgId: 'solana' },
             { id: 'ltc', name: 'Litecoin', host: 'litepick.io', logo: 'litecoin-ltc', cgId: 'litecoin' },
@@ -145,8 +141,6 @@
             { id: 'sui', name: 'Sui', host: 'suipick.io', logo: 'sui-sui', cgId: 'sui' },
             { id: 'trx', name: 'Tron', host: 'tronpick.io', logo: 'tron-trx', cgId: 'tron' },
             { id: 'doge', name: 'Dogecoin', host: 'dogepick.io', logo: 'dogecoin-doge', cgId: 'dogecoin' },
-            
-            // GROUP EXPANSION (NEW LINKS UPDATED)
             { id: 'f_btc', name: 'Free BTC', host: 'freebtcco.in/faucet', logo: 'bitcoin-btc', cgId: 'bitcoin' },
             { id: 'usdt', name: 'Tether USD', host: 'usdpick.io/faucet', logo: 'tether-usdt', cgId: 'tether' },
             { id: 'f_bch', name: 'Free BCH', host: 'freebch.in/faucet', logo: 'bitcoin-cash-bch', cgId: 'bitcoin-cash' },
@@ -201,59 +195,89 @@
         }
 
         function initUI() {
-            const standbyList = document.getElementById('standby-list');
+            // Container awal dikosongkan, akan diisi oleh updateTimers
+            document.getElementById('ready-list').innerHTML = '';
+            document.getElementById('standby-list').innerHTML = '';
+            
+            // Buat elemen row sekali saja
             coins.forEach(coin => {
-                const html = `
-                    <div class="coin-row" id="row-${coin.id}">
-                        <div class="coin-info-wrapper">
-                            <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2585/2585189.png'">
-                            <div class="coin-text">
-                                <h2>${coin.name}</h2>
-                                <p>${coin.host.split('/')[0]}</p>
-                                <span class="est-time" id="est-${coin.id}"></span>
-                            </div>
+                const row = document.createElement('div');
+                row.className = 'coin-row';
+                row.id = `row-${coin.id}`;
+                row.innerHTML = `
+                    <div class="coin-info-wrapper">
+                        <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2585/2585189.png'">
+                        <div class="coin-text">
+                            <h2>${coin.name}</h2>
+                            <p>${coin.host.split('/')[0]}</p>
+                            <span class="est-time" id="est-${coin.id}"></span>
                         </div>
-                        <div class="btn-action-wrapper" id="area-${coin.id}"></div>
-                        <div class="claim-progress" id="prog-${coin.id}"></div>
-                    </div>`;
-                standbyList.insertAdjacentHTML('beforeend', html);
+                    </div>
+                    <div class="btn-action-wrapper" id="area-${coin.id}"></div>
+                    <div class="claim-progress" id="prog-${coin.id}"></div>
+                `;
+                // Tempel sementara di standby
+                document.getElementById('standby-list').appendChild(row);
             });
         }
 
         function updateTimers() {
             const now = Date.now() + serverTimeOffset;
             let readyCount = 0;
+            
+            // 1. Ambil data status tiap koin
+            const coinStatus = coins.map(coin => {
+                const next = parseInt(localStorage.getItem(`claim_${coin.id}`)) || 0;
+                return { ...coin, next, isReady: now >= next, diff: next - now };
+            });
+
+            // 2. Sorting Logic
+            // Ready List: Bebas (berdasarkan urutan asli)
+            // Standby List: Urutan berdasarkan sisa waktu (diff) terkecil ke terbesar
+            const readyCoins = coinStatus.filter(c => c.isReady);
+            const standbyCoins = coinStatus.filter(c => !c.isReady).sort((a, b) => a.diff - b.diff);
+
             const readyList = document.getElementById('ready-list');
             const standbyList = document.getElementById('standby-list');
 
-            coins.forEach(coin => {
-                const next = parseInt(localStorage.getItem(`claim_${coin.id}`)) || 0;
+            // 3. Update UI & Pindahkan Row sesuai urutan hasil sorting
+            readyCoins.forEach(coin => {
+                readyCount++;
+                const row = document.getElementById(`row-${coin.id}`);
                 const area = document.getElementById(`area-${coin.id}`);
                 const prog = document.getElementById(`prog-${coin.id}`);
-                const row = document.getElementById(`row-${coin.id}`);
                 const est = document.getElementById(`est-${coin.id}`);
                 const openBtn = `<button onclick="secureOpen('https://${coin.host}')" class="btn-open-web">Open</button>`;
 
-                if (next && now < next) {
-                    const diff = next - now;
-                    area.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(diff/60000)}m ${Math.floor((diff%60000)/1000)}s</div>`;
-                    if (est) est.innerText = `Matang jam ${new Date(next).getHours().toString().padStart(2,'0')}:${new Date(next).getMinutes().toString().padStart(2,'0')}`;
-                    row.classList.remove('row-ready');
-                    if (prog) {
-                        prog.style.width = (diff / 3600000 * 100) + '%';
-                        prog.style.background = 'linear-gradient(90deg, transparent, #22d3ee)';
-                    }
-                    if (!standbyList.contains(row)) standbyList.appendChild(row);
-                } else {
-                    readyCount++;
-                    area.innerHTML = openBtn + `<button onclick="claim('${coin.id}','${coin.name}','${coin.host}')" class="btn-claim">Klaim</button>`;
-                    if (prog) { prog.style.width = '100%'; prog.style.background = '#ffd700'; }
-                    if (est) est.innerText = 'STATUS: READY TO CORE';
-                    row.classList.add('row-ready');
-                    if (!readyList.contains(row)) readyList.prepend(row);
-                }
+                area.innerHTML = openBtn + `<button onclick="claim('${coin.id}','${coin.name}','${coin.host}')" class="btn-claim">Klaim</button>`;
+                if (prog) { prog.style.width = '100%'; prog.style.background = '#ffd700'; }
+                if (est) est.innerText = 'STATUS: READY TO CORE';
+                row.classList.add('row-ready');
+                
+                // Masukkan ke DOM sesuai urutan sorting
+                readyList.appendChild(row); 
             });
 
+            standbyCoins.forEach(coin => {
+                const row = document.getElementById(`row-${coin.id}`);
+                const area = document.getElementById(`area-${coin.id}`);
+                const prog = document.getElementById(`prog-${coin.id}`);
+                const est = document.getElementById(`est-${coin.id}`);
+                const openBtn = `<button onclick="secureOpen('https://${coin.host}')" class="btn-open-web">Open</button>`;
+
+                area.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(coin.diff/60000)}m ${Math.floor((coin.diff%60000)/1000)}s</div>`;
+                if (est) est.innerText = `Matang jam ${new Date(coin.next).getHours().toString().padStart(2,'0')}:${new Date(coin.next).getMinutes().toString().padStart(2,'0')}`;
+                row.classList.remove('row-ready');
+                if (prog) {
+                    prog.style.width = (coin.diff / 3600000 * 100) + '%';
+                    prog.style.background = 'linear-gradient(90deg, transparent, #22d3ee)';
+                }
+                
+                // Masukkan ke DOM sesuai urutan sorting (yang tercepat di atas)
+                standbyList.appendChild(row);
+            });
+
+            // Update Bubble & Title
             const bubble = document.getElementById('claim-bubble');
             bubble.innerText = `${readyCount} READY TO KLAIM`;
             readyCount > 0 ? bubble.classList.add('show') : bubble.classList.remove('show');
@@ -298,7 +322,6 @@
 
         window.addEventListener('scroll', () => {
             document.body.classList.toggle('scrolled', window.scrollY > 40);
-            requestAnimationFrame(() => handleInteractivity({ clientY: lastMouseY }));
         });
 
         window.onload = () => {
