@@ -40,7 +40,7 @@
         .ticker-wrapper { display: inline-block; padding-left: 100%; animation: tickerMove 40s linear infinite; font-size: 11px; font-weight: 800; color: #22d3ee; font-family: monospace; }
         @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* --- CONTENT AREA & SECTIONS --- */
+        /* --- CONTENT AREA & PREMIUM FLOW --- */
         .content-area { padding-top: 210px; padding-bottom: 120px; padding-left: 15px; padding-right: 15px; }
         .zone-header { font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #64748b; margin: 25px 0 15px 10px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
         .zone-header.ready { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
@@ -65,15 +65,18 @@
         .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 11px; padding: 11px 18px; border-radius: 12px; min-width: 80px; text-align: center; cursor: pointer; border: none; }
         .timer-badge { color: #ffd700; font-family: monospace; font-size: 11px; font-weight: 800; background: rgba(0, 0, 0, 0.6); padding: 11px 12px; border-radius: 12px; border: 1px solid #ffd700; min-width: 80px; text-align: center; }
 
+        /* FOOTER BRANDING */
         .footer-brand { text-align: center; padding: 40px 0; opacity: 0.5; }
         .footer-brand p { font-size: 10px; letter-spacing: 2px; font-weight: 800; margin-bottom: 4px; }
         .footer-brand .email-text { font-size: 9px; color: #22d3ee; font-family: monospace; letter-spacing: 1px; }
 
+        /* TABS */
         .tab-bar { position: fixed; bottom: 30px; left: 24px; right: 24px; height: 70px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
         .tab-item { text-align: center; color: #475569; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
         .tab-item.active { color: #22d3ee; transform: translateY(-5px); }
         .hidden { display: none; }
 
+        /* FLOATING BUBBLE */
         #claim-bubble {
             position: fixed; bottom: 120px; right: 24px; background: #ffd700; color: #000;
             padding: 12px 20px; border-radius: 50px; font-weight: 900; font-size: 10px;
@@ -133,6 +136,7 @@
 
     <script>
         const coins = [
+            // GROUP ELITE (LAMA)
             { id: 'btc', name: 'Bitcoin', host: 'freebitco.in', logo: 'bitcoin-btc', cgId: 'bitcoin' },
             { id: 'sol', name: 'Solana', host: 'solpick.io', logo: 'solana-sol', cgId: 'solana' },
             { id: 'ltc', name: 'Litecoin', host: 'litepick.io', logo: 'litecoin-ltc', cgId: 'litecoin' },
@@ -141,17 +145,19 @@
             { id: 'sui', name: 'Sui', host: 'suipick.io', logo: 'sui-sui', cgId: 'sui' },
             { id: 'trx', name: 'Tron', host: 'tronpick.io', logo: 'tron-trx', cgId: 'tron' },
             { id: 'doge', name: 'Dogecoin', host: 'dogepick.io', logo: 'dogecoin-doge', cgId: 'dogecoin' },
-            { id: 'usdt', name: 'Tether USD', host: 'usdpick.io', logo: 'tether-usdt', cgId: 'tether' },
-            { id: 'f_btc', name: 'Free BTC', host: 'freebtcco.in', logo: 'bitcoin-btc', cgId: 'bitcoin' },
-            { id: 'f_bch', name: 'Free BCH', host: 'freebch.in', logo: 'bitcoin-cash-bch', cgId: 'bitcoin-cash' },
-            { id: 'f_arb', name: 'Free ARB', host: 'freearb.in', logo: 'arbitrum-arb', cgId: 'arbitrum' },
-            { id: 'f_xrp', name: 'Free XRP', host: 'freexrp.in', logo: 'xrp-xrp', cgId: 'xrp' },
-            { id: 'f_sui', name: 'Free SUI', host: 'freesui.in', logo: 'sui-sui', cgId: 'sui' },
-            { id: 'f_trx', name: 'Free TRX', host: 'freetron.in', logo: 'tron-trx', cgId: 'tron' },
-            { id: 'f_shib', name: 'Free SHIB', host: 'freeshib.in', logo: 'shiba-inu-shib', cgId: 'shiba-inu' },
-            { id: 'f_trum', name: 'Free TRUMP', host: 'freetrump.in', logo: 'trump-coin-trump', cgId: 'maga' },
-            { id: 'f_bnb', name: 'Free BNB', host: 'freebnb.in', logo: 'binance-coin-bnb', cgId: 'binancecoin' },
-            { id: 'f_ton', name: 'Free TON', host: 'freetoncoin.in', logo: 'toncoin-ton', cgId: 'the-open-network' }
+            
+            // GROUP EXPANSION (NEW LINKS UPDATED)
+            { id: 'f_btc', name: 'Free BTC', host: 'freebtcco.in/faucet', logo: 'bitcoin-btc', cgId: 'bitcoin' },
+            { id: 'usdt', name: 'Tether USD', host: 'usdpick.io/faucet', logo: 'tether-usdt', cgId: 'tether' },
+            { id: 'f_bch', name: 'Free BCH', host: 'freebch.in/faucet', logo: 'bitcoin-cash-bch', cgId: 'bitcoin-cash' },
+            { id: 'f_arb', name: 'Free ARB', host: 'freearb.in/faucet', logo: 'arbitrum-arb', cgId: 'arbitrum' },
+            { id: 'f_xrp', name: 'Free XRP', host: 'freexrp.in/faucet', logo: 'xrp-xrp', cgId: 'xrp' },
+            { id: 'f_sui', name: 'Free SUI', host: 'freesui.in/faucet', logo: 'sui-sui', cgId: 'sui' },
+            { id: 'f_trx', name: 'Free TRX', host: 'freetron.in/faucet', logo: 'tron-trx', cgId: 'tron' },
+            { id: 'f_shib', name: 'Free SHIB', host: 'freeshib.in/faucet', logo: 'shiba-inu-shib', cgId: 'shiba-inu' },
+            { id: 'f_trum', name: 'Free TRUMP', host: 'freetrump.in/faucet', logo: 'trump-coin-trump', cgId: 'maga' },
+            { id: 'f_bnb', name: 'Free BNB', host: 'freebnb.in/faucet', logo: 'binance-coin-bnb', cgId: 'binancecoin' },
+            { id: 'f_ton', name: 'Free TON', host: 'freetoncoin.in/faucet', logo: 'toncoin-ton', cgId: 'the-open-network' }
         ];
 
         let serverTimeOffset = 0;
@@ -203,7 +209,7 @@
                             <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2585/2585189.png'">
                             <div class="coin-text">
                                 <h2>${coin.name}</h2>
-                                <p>${coin.host}</p>
+                                <p>${coin.host.split('/')[0]}</p>
                                 <span class="est-time" id="est-${coin.id}"></span>
                             </div>
                         </div>
