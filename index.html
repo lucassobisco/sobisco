@@ -6,12 +6,12 @@
     <title>SOBISCO | Digital Asset Core</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- FOUNDATION & RESET (PONDASI AWAL) --- */
+        /* --- FOUNDATION & RESET --- */
         * { -webkit-tap-highlight-color: transparent; user-select: none; box-sizing: border-box; }
         body { background: #000; color: #ffffff; font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
         .ambient-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, #0f172a 0%, #000 100%); }
         
-        /* --- HEADER MORPHING (PONDASI AWAL) --- */
+        /* --- HEADER MORPHING --- */
         .nav-header { 
             position: fixed; top: 0; left: 0; right: 0; 
             background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
@@ -40,38 +40,47 @@
         .ticker-wrapper { display: inline-block; padding-left: 100%; animation: tickerMove 40s linear infinite; font-size: 11px; font-weight: 800; color: #22d3ee; font-family: monospace; }
         @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* --- CONTENT AREA & SCROLL (PONDASI AWAL) --- */
+        /* --- CONTENT AREA & SECTIONS --- */
         .content-area { padding-top: 210px; padding-bottom: 120px; padding-left: 15px; padding-right: 15px; }
+        .zone-header { font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #64748b; margin: 25px 0 15px 10px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+        .zone-header.ready { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
+
         .coin-row { 
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); margin-bottom: 16px; 
-            padding: 18px; border-radius: 26px; display: flex; align-items: center; justify-content: space-between; 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            margin-bottom: 16px; padding: 18px; border-radius: 26px; display: flex; align-items: center; justify-content: space-between; 
             border: 1px solid rgba(255, 255, 255, 0.06); position: relative; overflow: hidden;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease;
-            will-change: transform, opacity;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* UPGRADE: URGENCY PROGRESS BAR & BREATH GLOW */
         .claim-progress { position: absolute; bottom: 0; left: 0; height: 3px; transition: width 0.5s linear, background 0.5s ease; }
-        .row-ready { border: 1px solid rgba(255, 215, 0, 0.3) !important; animation: breathGlow 3s ease-in-out infinite; }
-        @keyframes breathGlow { 0%, 100% { box-shadow: inset 0 0 10px rgba(255,215,0,0.05); } 50% { box-shadow: inset 0 0 25px rgba(255,215,0,0.15); } }
+        .row-ready { border: 1.5px solid rgba(255, 215, 0, 0.4) !important; background: rgba(255, 215, 0, 0.05); }
 
         .coin-info-wrapper { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
         .coin-text h2 { font-size: 16px; font-weight: 800; }
         .coin-text p { font-size: 9px; color: #64748b; font-weight: bold; text-transform: uppercase; }
         .est-time { font-size: 8px; color: #ffd700; opacity: 0.8; margin-top: 2px; display: block; }
 
-        /* BUTTONS (PONDASI AWAL) */
         .btn-action-wrapper { display: flex; align-items: center; gap: 6px; flex-shrink: 0; margin-left: 10px; z-index: 10; }
         .btn-open-web { background: rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 9px; padding: 11px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); text-transform: uppercase; }
-        .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 11px; padding: 11px 18px; border-radius: 12px; min-width: 80px; text-align: center; cursor: pointer; }
+        .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 11px; padding: 11px 18px; border-radius: 12px; min-width: 80px; text-align: center; cursor: pointer; border: none; }
         .timer-badge { color: #ffd700; font-family: monospace; font-size: 11px; font-weight: 800; background: rgba(0, 0, 0, 0.6); padding: 11px 12px; border-radius: 12px; border: 1px solid #ffd700; min-width: 80px; text-align: center; }
 
-        /* FOOTER & TABS (PONDASI AWAL) */
-        .footer-brand { text-align: center; padding: 40px 0; opacity: 0.4; }
+        .footer-brand { text-align: center; padding: 40px 0; opacity: 0.5; }
+        .footer-brand p { font-size: 10px; letter-spacing: 2px; font-weight: 800; margin-bottom: 4px; }
+        .footer-brand .email-text { font-size: 9px; color: #22d3ee; font-family: monospace; letter-spacing: 1px; }
+
         .tab-bar { position: fixed; bottom: 30px; left: 24px; right: 24px; height: 70px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
         .tab-item { text-align: center; color: #475569; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
         .tab-item.active { color: #22d3ee; transform: translateY(-5px); }
         .hidden { display: none; }
+
+        #claim-bubble {
+            position: fixed; bottom: 120px; right: 24px; background: #ffd700; color: #000;
+            padding: 12px 20px; border-radius: 50px; font-weight: 900; font-size: 10px;
+            box-shadow: 0 10px 25px rgba(255,215,0,0.4); z-index: 999; transform: translateY(100px);
+            transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer;
+        }
+        #claim-bubble.show { transform: translateY(0); }
     </style>
 </head>
 <body onmousemove="handleInteractivity(event)" ontouchmove="handleInteractivity(event.touches[0])">
@@ -94,9 +103,21 @@
         </div>
     </div>
 
+    <div id="claim-bubble" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">0 READY TO KLAIM</div>
+
     <div class="content-area" id="page-mining">
-        <div id="coin-list"></div>
-        <div class="footer-brand"><p style="font-size:10px; letter-spacing:2px; font-weight:800;">©2026 SOBISCO | DIGITAL ASSET CORE</p></div>
+        <div id="ready-harvest-zone">
+            <div class="zone-header ready"><span>✨</span> Ready to Harvest</div>
+            <div id="ready-list"></div>
+        </div>
+        <div id="cooling-down-zone">
+            <div class="zone-header"><span>⏳</span> Cooling Down</div>
+            <div id="standby-list"></div>
+        </div>
+        <div class="footer-brand">
+            <p>©2026 SOBISCO | DIGITAL ASSET CORE</p>
+            <div class="email-text">email: sobisco@proton.me</div>
+        </div>
     </div>
 
     <div class="content-area hidden" id="page-history">
@@ -119,7 +140,18 @@
             { id: 'bnb', name: 'Binance', host: 'bnbpick.io', logo: 'binance-coin-bnb', cgId: 'binancecoin' },
             { id: 'sui', name: 'Sui', host: 'suipick.io', logo: 'sui-sui', cgId: 'sui' },
             { id: 'trx', name: 'Tron', host: 'tronpick.io', logo: 'tron-trx', cgId: 'tron' },
-            { id: 'doge', name: 'Dogecoin', host: 'dogepick.io', logo: 'dogecoin-doge', cgId: 'dogecoin' }
+            { id: 'doge', name: 'Dogecoin', host: 'dogepick.io', logo: 'dogecoin-doge', cgId: 'dogecoin' },
+            { id: 'usdt', name: 'Tether USD', host: 'usdpick.io', logo: 'tether-usdt', cgId: 'tether' },
+            { id: 'f_btc', name: 'Free BTC', host: 'freebtcco.in', logo: 'bitcoin-btc', cgId: 'bitcoin' },
+            { id: 'f_bch', name: 'Free BCH', host: 'freebch.in', logo: 'bitcoin-cash-bch', cgId: 'bitcoin-cash' },
+            { id: 'f_arb', name: 'Free ARB', host: 'freearb.in', logo: 'arbitrum-arb', cgId: 'arbitrum' },
+            { id: 'f_xrp', name: 'Free XRP', host: 'freexrp.in', logo: 'xrp-xrp', cgId: 'xrp' },
+            { id: 'f_sui', name: 'Free SUI', host: 'freesui.in', logo: 'sui-sui', cgId: 'sui' },
+            { id: 'f_trx', name: 'Free TRX', host: 'freetron.in', logo: 'tron-trx', cgId: 'tron' },
+            { id: 'f_shib', name: 'Free SHIB', host: 'freeshib.in', logo: 'shiba-inu-shib', cgId: 'shiba-inu' },
+            { id: 'f_trum', name: 'Free TRUMP', host: 'freetrump.in', logo: 'trump-coin-trump', cgId: 'maga' },
+            { id: 'f_bnb', name: 'Free BNB', host: 'freebnb.in', logo: 'binance-coin-bnb', cgId: 'binancecoin' },
+            { id: 'f_ton', name: 'Free TON', host: 'freetoncoin.in', logo: 'toncoin-ton', cgId: 'the-open-network' }
         ];
 
         let serverTimeOffset = 0;
@@ -127,15 +159,13 @@
         let lastReadyCount = -1;
         const chime = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
 
-        // CORE UPGRADE: AUTO-SYNC SERVER TIME
         async function syncServerTime() {
             try {
                 const start = Date.now();
                 const res = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC');
                 const data = await res.json();
                 const end = Date.now();
-                const lat = (end - start) / 2;
-                serverTimeOffset = new Date(data.datetime).getTime() - (end - lat);
+                serverTimeOffset = new Date(data.datetime).getTime() - (end - ((end - start) / 2));
                 document.getElementById('status-label').innerText = 'CORE_SYNC_OPTIMAL';
                 updatePrices();
             } catch (e) { document.getElementById('status-label').innerText = 'LOCAL_TIME_ACTIVE'; }
@@ -143,9 +173,10 @@
 
         async function updatePrices() {
             try {
-                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins.map(c=>c.cgId).join(',')}&vs_currencies=usd`);
+                const ids = [...new Set(coins.map(c=>c.cgId))].join(',');
+                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`);
                 const data = await res.json();
-                document.getElementById('ticker-wrapper').innerHTML = coins.map(c => 
+                document.getElementById('ticker-wrapper').innerHTML = coins.slice(0,8).map(c => 
                     `${c.id.toUpperCase()}: $${data[c.cgId].usd.toLocaleString()} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`
                 ).join('') + " | SOBISCO_LIVE_CORE | ";
             } catch (e) {}
@@ -154,55 +185,40 @@
         function handleInteractivity(e) {
             if (!e) return;
             lastMouseY = e.clientY || lastMouseY;
-            const rows = document.querySelectorAll('.coin-row');
-            rows.forEach(row => {
+            document.querySelectorAll('.coin-row').forEach(row => {
                 const rect = row.getBoundingClientRect();
                 const distance = Math.abs(lastMouseY - (rect.top + rect.height/2));
-                const maxDist = 300;
-                let scale = 0.94; let opacity = 0.5;
-                if (distance < maxDist) {
-                    const ratio = Math.pow(1 - (distance / maxDist), 2);
-                    scale = 0.94 + (ratio * 0.1);
-                    opacity = 0.5 + (ratio * 0.5);
-                }
-                row.style.transform = `scale(${scale})`;
-                row.style.opacity = opacity;
+                const ratio = Math.max(0, 1 - (distance / 300));
+                row.style.transform = `scale(${0.94 + (Math.pow(ratio,2) * 0.06)})`;
+                row.style.opacity = 0.5 + (ratio * 0.5);
             });
         }
 
-        // UPGRADE: SMART SORTING & TAB NOTIFICATION
-        function renderUI() {
-            const now = Date.now() + serverTimeOffset;
-            const sorted = [...coins].sort((a, b) => {
-                const nA = parseInt(localStorage.getItem(`claim_${a.id}`)) || 0;
-                const nB = parseInt(localStorage.getItem(`claim_${b.id}`)) || 0;
-                const readyA = now >= nA;
-                const readyB = now >= nB;
-                if (readyA && !readyB) return -1;
-                if (!readyA && readyB) return 1;
-                return nA - nB;
-            });
-
-            document.getElementById('coin-list').innerHTML = sorted.map(coin => `
-                <div class="coin-row" id="row-${coin.id}">
-                    <div class="coin-info-wrapper">
-                        <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10">
-                        <div class="coin-text">
-                            <h2>${coin.name}</h2>
-                            <p>${coin.host}</p>
-                            <span class="est-time" id="est-${coin.id}"></span>
+        function initUI() {
+            const standbyList = document.getElementById('standby-list');
+            coins.forEach(coin => {
+                const html = `
+                    <div class="coin-row" id="row-${coin.id}">
+                        <div class="coin-info-wrapper">
+                            <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2585/2585189.png'">
+                            <div class="coin-text">
+                                <h2>${coin.name}</h2>
+                                <p>${coin.host}</p>
+                                <span class="est-time" id="est-${coin.id}"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="btn-action-wrapper" id="area-${coin.id}"></div>
-                    <div class="claim-progress" id="prog-${coin.id}"></div>
-                </div>
-            `).join('');
-            updateTimers();
+                        <div class="btn-action-wrapper" id="area-${coin.id}"></div>
+                        <div class="claim-progress" id="prog-${coin.id}"></div>
+                    </div>`;
+                standbyList.insertAdjacentHTML('beforeend', html);
+            });
         }
 
         function updateTimers() {
             const now = Date.now() + serverTimeOffset;
             let readyCount = 0;
+            const readyList = document.getElementById('ready-list');
+            const standbyList = document.getElementById('standby-list');
 
             coins.forEach(coin => {
                 const next = parseInt(localStorage.getItem(`claim_${coin.id}`)) || 0;
@@ -210,68 +226,50 @@
                 const prog = document.getElementById(`prog-${coin.id}`);
                 const row = document.getElementById(`row-${coin.id}`);
                 const est = document.getElementById(`est-${coin.id}`);
-                
                 const openBtn = `<button onclick="secureOpen('https://${coin.host}')" class="btn-open-web">Open</button>`;
 
                 if (next && now < next) {
                     const diff = next - now;
-                    const percent = (diff / 3600000) * 100;
-                    const date = new Date(next);
-                    
                     area.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(diff/60000)}m ${Math.floor((diff%60000)/1000)}s</div>`;
-                    if (est) est.innerText = `Matang jam ${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`;
-                    if (row) row.classList.remove('row-ready');
-                    
+                    if (est) est.innerText = `Matang jam ${new Date(next).getHours().toString().padStart(2,'0')}:${new Date(next).getMinutes().toString().padStart(2,'0')}`;
+                    row.classList.remove('row-ready');
                     if (prog) {
-                        prog.style.width = percent + '%';
-                        // UPGRADE: URGENCY PROGRESS BAR
-                        if (percent > 50) prog.style.background = 'linear-gradient(90deg, transparent, #22d3ee)';
-                        else if (percent > 10) prog.style.background = 'linear-gradient(90deg, transparent, #f97316)';
-                        else prog.style.background = 'linear-gradient(90deg, transparent, #ffd700)';
+                        prog.style.width = (diff / 3600000 * 100) + '%';
+                        prog.style.background = 'linear-gradient(90deg, transparent, #22d3ee)';
                     }
+                    if (!standbyList.contains(row)) standbyList.appendChild(row);
                 } else {
                     readyCount++;
                     area.innerHTML = openBtn + `<button onclick="claim('${coin.id}','${coin.name}','${coin.host}')" class="btn-claim">Klaim</button>`;
-                    if (prog) {
-                        prog.style.width = '100%';
-                        prog.style.background = '#ffd700';
-                    }
+                    if (prog) { prog.style.width = '100%'; prog.style.background = '#ffd700'; }
                     if (est) est.innerText = 'STATUS: READY TO CORE';
-                    if (row) row.classList.add('row-ready');
+                    row.classList.add('row-ready');
+                    if (!readyList.contains(row)) readyList.prepend(row);
                 }
             });
 
-            // UPGRADE: QUICK VIEW TAB & AUDIO NOTIF
+            const bubble = document.getElementById('claim-bubble');
+            bubble.innerText = `${readyCount} READY TO KLAIM`;
+            readyCount > 0 ? bubble.classList.add('show') : bubble.classList.remove('show');
             document.title = readyCount > 0 ? `(${readyCount}) SOBISCO` : 'SOBISCO | DAC';
-            if (readyCount > lastReadyCount && lastReadyCount !== -1) {
-                chime.play().catch(()=>{});
-            }
+            if (readyCount > lastReadyCount && lastReadyCount !== -1) chime.play().catch(()=>{});
             lastReadyCount = readyCount;
         }
 
-        // UPGRADE: HUMANIZER DELAY & HAPTIC DISTINCTION
         function secureOpen(url) {
-            if (navigator.vibrate) navigator.vibrate(30); // Ketukan pendek
-            const delay = 500 + Math.random() * 1000;
-            setTimeout(() => window.open(url, '_blank'), delay);
+            if (navigator.vibrate) navigator.vibrate(30);
+            setTimeout(() => window.open(url, '_blank'), 500);
         }
 
         function claim(id, name, host) {
-            if (navigator.vibrate) navigator.vibrate([50, 30, 50]); // Ketukan ganda mantap
+            if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
             chime.play().catch(()=>{});
-
             const nextTime = Date.now() + serverTimeOffset + 3600000;
             localStorage.setItem(`claim_${id}`, nextTime);
-
             const hist = JSON.parse(localStorage.getItem('claim_history') || '[]');
             hist.push({ name, time: new Date().toLocaleTimeString(), date: new Date().toLocaleDateString() });
             localStorage.setItem('claim_history', JSON.stringify(hist.slice(-50)));
-
-            const delay = 500 + Math.random() * 1000;
-            setTimeout(() => {
-                window.open(`https://${host}`, '_blank');
-                renderUI();
-            }, delay);
+            setTimeout(() => { window.open(`https://${host}`, '_blank'); updateTimers(); }, 600);
         }
 
         function renderHistory() {
@@ -293,14 +291,13 @@
         }
 
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 40) document.body.classList.add('scrolled');
-            else document.body.classList.remove('scrolled');
+            document.body.classList.toggle('scrolled', window.scrollY > 40);
             requestAnimationFrame(() => handleInteractivity({ clientY: lastMouseY }));
         });
 
         window.onload = () => {
             syncServerTime();
-            renderUI();
+            initUI();
             setInterval(updateTimers, 1000);
             setInterval(updatePrices, 60000);
         };
