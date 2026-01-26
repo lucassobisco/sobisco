@@ -11,37 +11,75 @@
         body { background: #000; color: #ffffff; font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
         .ambient-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, #0f172a 0%, #000 100%); }
         
-        /* --- HEADER MORPHING --- */
+        /* --- NAVBAR --- */
         .nav-header { 
             position: fixed; top: 0; left: 0; right: 0; 
-            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
-            z-index: 100; padding: calc(env(safe-area-inset-top) + 15px) 20px 15px 20px; 
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            z-index: 100; padding: calc(env(safe-area-inset-top) + 5px) 20px 10px 20px; 
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
             transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        body.scrolled .nav-header { padding-bottom: 10px; background: rgba(0, 0, 0, 0.9); }
+        body.scrolled .nav-header { padding-bottom: 8px; background: rgba(0, 0, 0, 0.95); }
         body.scrolled .brand-name { font-size: 22px; }
-        body.scrolled .brand-logo { width: 32px; height: 32px; }
+        body.scrolled .brand-logo, body.scrolled .sobisco-coin { width: 45px; height: 45px; }
         body.scrolled .slogan, body.scrolled .ticker-container, body.scrolled .status-bar { 
             opacity: 0; height: 0; margin: 0; overflow: hidden; pointer-events: none; 
         }
 
-        .header-top-layout { display: grid; grid-template-columns: 50px 1fr 50px; align-items: center; width: 100%; }
-        .brand-logo { width: 44px; height: 44px; filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.8)); transition: 0.5s; }
+        /* Layout 3 Kolom */
+        .header-top-layout { 
+            display: grid; 
+            grid-template-columns: 100px 1fr 100px; 
+            align-items: center; 
+            width: 100%; 
+        }
+        
+        .brand-logo { 
+            width: 100px; height: 100px; 
+            filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.5)); 
+            transition: 0.5s; object-fit: contain;
+            margin-left: -10px;
+        }
+
+        /* KOIN SOBISCO KANAN */
+        .sobisco-coin {
+            width: 80px; height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.6));
+            animation: coinRotate 8s linear infinite;
+            transform-style: preserve-3d;
+            transition: 0.5s;
+            margin-right: -10px;
+            justify-self: end;
+        }
+        @keyframes coinRotate {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        .brand-name-container { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .brand-name { 
-            font-size: 34px; font-weight: 900; letter-spacing: -1.5px; text-align: center;
+            font-size: 34px; font-weight: 900; letter-spacing: -1.5px;
             background: linear-gradient(180deg, #FFFFFF 0%, #FFD700 50%, #22D3EE 100%); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            font-style: italic; line-height: 1; transition: 0.5s;
+            font-style: italic; line-height: 0.9; margin: 0;
         }
-        .slogan { font-size: 8px; font-weight: 800; letter-spacing: 4px; color: #475569; text-transform: uppercase; text-align: center; margin-top: 4px; transition: 0.3s; }
+        .slogan { 
+            font-size: 8px; font-weight: 800; letter-spacing: 4px; color: #475569; 
+            text-transform: uppercase; margin-top: 4px;
+        }
         
-        .ticker-container { margin-top: 12px; overflow: hidden; white-space: nowrap; width: calc(100% + 40px); margin-left: -20px; height: 28px; background: rgba(34, 211, 238, 0.06); display: flex; align-items: center; }
-        .ticker-wrapper { display: inline-block; padding-left: 100%; animation: tickerMove 40s linear infinite; font-size: 11px; font-weight: 800; color: #22d3ee; font-family: monospace; }
+        /* TICKER STABLE */
+        .ticker-container { margin-top: 10px; overflow: hidden; white-space: nowrap; width: calc(100% + 40px); margin-left: -20px; height: 28px; background: rgba(34, 211, 238, 0.06); display: flex; align-items: center; }
+        .ticker-wrapper { 
+            display: inline-block; padding-left: 100%; 
+            animation: tickerMove 100s linear infinite; 
+            font-size: 11px; font-weight: 800; color: #22d3ee; font-family: monospace; 
+        }
         @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* --- CONTENT AREA & SECTIONS --- */
-        .content-area { padding-top: 210px; padding-bottom: 120px; padding-left: 15px; padding-right: 15px; }
+        /* --- CONTENT AREA --- */
+        .content-area { padding-top: 240px; padding-bottom: 120px; padding-left: 15px; padding-right: 15px; }
         .zone-header { font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #64748b; margin: 25px 0 15px 10px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
         .zone-header.ready { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
 
@@ -49,7 +87,7 @@
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             margin-bottom: 16px; padding: 18px; border-radius: 26px; display: flex; align-items: center; justify-content: space-between; 
             border: 1px solid rgba(255, 255, 255, 0.06); position: relative; overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .claim-progress { position: absolute; bottom: 0; left: 0; height: 3px; transition: width 0.5s linear, background 0.5s ease; }
@@ -89,14 +127,18 @@
 
     <div class="nav-header" id="header-core">
         <div class="header-top-layout">
-            <div class="brand-logo">
-                <svg viewBox="0 0 100 100" fill="none"><defs><linearGradient id="logoS" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#22d3ee"/><stop offset="100%" style="stop-color:#0891b2"/></linearGradient></defs><path d="M30 35 C 30 22, 70 22, 70 35 C 70 47, 30 53, 30 65 C 30 78, 70 78, 70 65" stroke="url(#logoS)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            <img src="logo-sobisco.png" alt="S" class="brand-logo">
+            
+            <div class="brand-name-container">
+                <h1 class="brand-name">SOBISCO</h1>
+                <p class="slogan">Digital Asset Core</p>
             </div>
-            <div class="brand-name-container"><h1 class="brand-name">SOBISCO</h1></div>
-            <div></div>
+            
+            <img src="sobisco-coin.png" alt="Coin" class="sobisco-coin">
         </div>
-        <p class="slogan">Digital Asset Core</p>
-        <div class="ticker-container"><div id="ticker-wrapper" class="ticker-wrapper">SYNCING_MARKET_DATA...</div></div>
+
+        <div class="ticker-container"><div id="ticker-wrapper" class="ticker-wrapper">FETCHING_LIVE_MARKET...</div></div>
+        
         <div class="status-bar" style="display:flex; justify-content:center; gap:6px; margin-top:8px;">
             <div style="width:6px; height:6px; background:#22d3ee; border-radius:50%; animation:pulse 2s infinite;"></div>
             <span id="status-label" style="font-size:8px; color:#22d3ee; font-family:monospace; font-weight:800;">CONNECTING...</span>
@@ -107,11 +149,11 @@
 
     <div class="content-area" id="page-mining">
         <div id="ready-harvest-zone">
-            <div class="zone-header ready"><span>✨</span> Ready to Harvest</div>
+            <div class="zone-header ready"><span>⚡</span> Ready to Harvest</div>
             <div id="ready-list"></div>
         </div>
         <div id="cooling-down-zone">
-            <div class="zone-header"><span>⏳</span> Cooling Down</div>
+            <div class="zone-header"><span>❄️</span> Cooling Down</div>
             <div id="standby-list"></div>
         </div>
         <div class="footer-brand">
@@ -173,13 +215,18 @@
 
         async function updatePrices() {
             try {
-                const ids = [...new Set(coins.map(c=>c.cgId))].join(',');
-                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`);
+                const uniqueCgIds = [...new Set(coins.map(c => c.cgId))];
+                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${uniqueCgIds.join(',')}&vs_currencies=usd`);
                 const data = await res.json();
-                document.getElementById('ticker-wrapper').innerHTML = coins.slice(0,8).map(c => 
-                    `${c.id.toUpperCase()}: $${data[c.cgId].usd.toLocaleString()} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`
-                ).join('') + " | SOBISCO_LIVE_CORE | ";
-            } catch (e) {}
+                let tickerHtml = "";
+                uniqueCgIds.forEach(id => {
+                    const cInfo = coins.find(c => c.cgId === id);
+                    const symbol = cInfo.id.replace('f_','').toUpperCase();
+                    const price = data[id]?.usd ? data[id].usd.toLocaleString() : '---';
+                    tickerHtml += `${symbol}: $${price} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `;
+                });
+                document.getElementById('ticker-wrapper').innerHTML = tickerHtml + " | SOBISCO LIVE CORE | ";
+            } catch (e) { console.error("Ticker Error", e); }
         }
 
         function handleInteractivity(e) {
@@ -195,89 +242,59 @@
         }
 
         function initUI() {
-            // Container awal dikosongkan, akan diisi oleh updateTimers
-            document.getElementById('ready-list').innerHTML = '';
-            document.getElementById('standby-list').innerHTML = '';
-            
-            // Buat elemen row sekali saja
+            const standbyList = document.getElementById('standby-list');
             coins.forEach(coin => {
-                const row = document.createElement('div');
-                row.className = 'coin-row';
-                row.id = `row-${coin.id}`;
-                row.innerHTML = `
-                    <div class="coin-info-wrapper">
-                        <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2585/2585189.png'">
-                        <div class="coin-text">
-                            <h2>${coin.name}</h2>
-                            <p>${coin.host.split('/')[0]}</p>
-                            <span class="est-time" id="est-${coin.id}"></span>
+                const html = `
+                    <div class="coin-row" id="row-${coin.id}">
+                        <div class="coin-info-wrapper">
+                            <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2585/2585189.png'">
+                            <div class="coin-text">
+                                <h2>${coin.name}</h2>
+                                <p>${coin.host.split('/')[0]}</p>
+                                <span class="est-time" id="est-${coin.id}"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="btn-action-wrapper" id="area-${coin.id}"></div>
-                    <div class="claim-progress" id="prog-${coin.id}"></div>
-                `;
-                // Tempel sementara di standby
-                document.getElementById('standby-list').appendChild(row);
+                        <div class="btn-action-wrapper" id="area-${coin.id}"></div>
+                        <div class="claim-progress" id="prog-${coin.id}"></div>
+                    </div>`;
+                standbyList.insertAdjacentHTML('beforeend', html);
             });
         }
 
         function updateTimers() {
             const now = Date.now() + serverTimeOffset;
             let readyCount = 0;
-            
-            // 1. Ambil data status tiap koin
-            const coinStatus = coins.map(coin => {
-                const next = parseInt(localStorage.getItem(`claim_${coin.id}`)) || 0;
-                return { ...coin, next, isReady: now >= next, diff: next - now };
-            });
-
-            // 2. Sorting Logic
-            // Ready List: Bebas (berdasarkan urutan asli)
-            // Standby List: Urutan berdasarkan sisa waktu (diff) terkecil ke terbesar
-            const readyCoins = coinStatus.filter(c => c.isReady);
-            const standbyCoins = coinStatus.filter(c => !c.isReady).sort((a, b) => a.diff - b.diff);
-
             const readyList = document.getElementById('ready-list');
             const standbyList = document.getElementById('standby-list');
 
-            // 3. Update UI & Pindahkan Row sesuai urutan hasil sorting
-            readyCoins.forEach(coin => {
-                readyCount++;
-                const row = document.getElementById(`row-${coin.id}`);
+            coins.forEach(coin => {
+                const next = parseInt(localStorage.getItem(`claim_${coin.id}`)) || 0;
                 const area = document.getElementById(`area-${coin.id}`);
                 const prog = document.getElementById(`prog-${coin.id}`);
+                const row = document.getElementById(`row-${coin.id}`);
                 const est = document.getElementById(`est-${coin.id}`);
                 const openBtn = `<button onclick="secureOpen('https://${coin.host}')" class="btn-open-web">Open</button>`;
 
-                area.innerHTML = openBtn + `<button onclick="claim('${coin.id}','${coin.name}','${coin.host}')" class="btn-claim">Klaim</button>`;
-                if (prog) { prog.style.width = '100%'; prog.style.background = '#ffd700'; }
-                if (est) est.innerText = 'STATUS: READY TO CORE';
-                row.classList.add('row-ready');
-                
-                // Masukkan ke DOM sesuai urutan sorting
-                readyList.appendChild(row); 
-            });
-
-            standbyCoins.forEach(coin => {
-                const row = document.getElementById(`row-${coin.id}`);
-                const area = document.getElementById(`area-${coin.id}`);
-                const prog = document.getElementById(`prog-${coin.id}`);
-                const est = document.getElementById(`est-${coin.id}`);
-                const openBtn = `<button onclick="secureOpen('https://${coin.host}')" class="btn-open-web">Open</button>`;
-
-                area.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(coin.diff/60000)}m ${Math.floor((coin.diff%60000)/1000)}s</div>`;
-                if (est) est.innerText = `Matang jam ${new Date(coin.next).getHours().toString().padStart(2,'0')}:${new Date(coin.next).getMinutes().toString().padStart(2,'0')}`;
-                row.classList.remove('row-ready');
-                if (prog) {
-                    prog.style.width = (coin.diff / 3600000 * 100) + '%';
-                    prog.style.background = 'linear-gradient(90deg, transparent, #22d3ee)';
+                if (next && now < next) {
+                    const diff = next - now;
+                    area.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(diff/60000)}m ${Math.floor((diff%60000)/1000)}s</div>`;
+                    if (est) est.innerText = `Matang jam ${new Date(next).getHours().toString().padStart(2,'0')}:${new Date(next).getMinutes().toString().padStart(2,'0')}`;
+                    row.classList.remove('row-ready');
+                    if (prog) {
+                        prog.style.width = (diff / 3600000 * 100) + '%';
+                        prog.style.background = 'linear-gradient(90deg, transparent, #22d3ee)';
+                    }
+                    if (!standbyList.contains(row)) standbyList.appendChild(row);
+                } else {
+                    readyCount++;
+                    area.innerHTML = openBtn + `<button onclick="claim('${coin.id}','${coin.name}','${coin.host}')" class="btn-claim">Klaim</button>`;
+                    if (prog) { prog.style.width = '100%'; prog.style.background = '#ffd700'; }
+                    if (est) est.innerText = 'STATUS: READY TO CORE';
+                    row.classList.add('row-ready');
+                    if (readyList && !readyList.contains(row)) readyList.prepend(row);
                 }
-                
-                // Masukkan ke DOM sesuai urutan sorting (yang tercepat di atas)
-                standbyList.appendChild(row);
             });
 
-            // Update Bubble & Title
             const bubble = document.getElementById('claim-bubble');
             bubble.innerText = `${readyCount} READY TO KLAIM`;
             readyCount > 0 ? bubble.classList.add('show') : bubble.classList.remove('show');
@@ -322,6 +339,7 @@
 
         window.addEventListener('scroll', () => {
             document.body.classList.toggle('scrolled', window.scrollY > 40);
+            requestAnimationFrame(() => handleInteractivity({ clientY: lastMouseY }));
         });
 
         window.onload = () => {
