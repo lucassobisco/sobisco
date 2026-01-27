@@ -20,65 +20,26 @@
             transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         body.scrolled .nav-header { padding-bottom: 8px; background: rgba(0, 0, 0, 0.95); }
-        body.scrolled .brand-name { font-size: 22px; }
         body.scrolled .brand-logo, body.scrolled .sobisco-coin { width: 45px; height: 45px; }
-        body.scrolled .slogan, body.scrolled .ticker-container, body.scrolled .status-bar { 
+        body.scrolled .main-text-logo { max-width: 140px; }
+        body.scrolled .ticker-container, body.scrolled .status-bar { 
             opacity: 0; height: 0; margin: 0; overflow: hidden; pointer-events: none; 
         }
 
-        /* Layout 3 Kolom */
-        .header-top-layout { 
-            display: grid; 
-            grid-template-columns: 100px 1fr 100px; 
-            align-items: center; 
-            width: 100%; 
-        }
+        .header-top-layout { display: grid; grid-template-columns: 100px 1fr 100px; align-items: center; width: 100%; }
+        .brand-logo { width: 100px; height: 100px; filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.5)); transition: 0.5s; object-fit: contain; margin-left: -10px; }
         
-        .brand-logo { 
-            width: 100px; height: 100px; 
-            filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.5)); 
-            transition: 0.5s; object-fit: contain;
-            margin-left: -10px;
-        }
+        .brand-name-container { text-align: center; display: flex; justify-content: center; align-items: center; }
+        .main-text-logo { width: 100%; max-width: 260px; height: auto; filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.4)); transition: 0.5s; }
 
-        /* KOIN SOBISCO KANAN */
-        .sobisco-coin {
-            width: 80px; height: 80px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.6));
-            animation: coinRotate 8s linear infinite;
-            transform-style: preserve-3d;
-            transition: 0.5s;
-            margin-right: -10px;
-            justify-self: end;
-        }
-        @keyframes coinRotate {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
+        .sobisco-coin { width: 80px; height: 80px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.6)); animation: coinRotate 8s linear infinite; transition: 0.5s; margin-right: -10px; justify-self: end; }
+        @keyframes coinRotate { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
         
-        .brand-name-container { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .brand-name { 
-            font-size: 34px; font-weight: 900; letter-spacing: -1.5px;
-            background: linear-gradient(180deg, #FFFFFF 0%, #FFD700 50%, #22D3EE 100%); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            font-style: italic; line-height: 0.9; margin: 0;
-        }
-        .slogan { 
-            font-size: 8px; font-weight: 800; letter-spacing: 4px; color: #475569; 
-            text-transform: uppercase; margin-top: 4px;
-        }
-        
-        /* TICKER STABLE */
         .ticker-container { margin-top: 10px; overflow: hidden; white-space: nowrap; width: calc(100% + 40px); margin-left: -20px; height: 28px; background: rgba(34, 211, 238, 0.06); display: flex; align-items: center; }
-        .ticker-wrapper { 
-            display: inline-block; padding-left: 100%; 
-            animation: tickerMove 100s linear infinite; 
-            font-size: 11px; font-weight: 800; color: #22d3ee; font-family: monospace; 
-        }
+        .ticker-wrapper { display: inline-block; padding-left: 100%; animation: tickerMove 100s linear infinite; font-size: 11px; font-weight: 800; color: #22d3ee; font-family: monospace; }
         @keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* --- CONTENT AREA --- */
+        /* --- CONTENT --- */
         .content-area { padding-top: 240px; padding-bottom: 120px; padding-left: 15px; padding-right: 15px; }
         .zone-header { font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #64748b; margin: 25px 0 15px 10px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
         .zone-header.ready { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
@@ -87,11 +48,10 @@
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             margin-bottom: 16px; padding: 18px; border-radius: 26px; display: flex; align-items: center; justify-content: space-between; 
             border: 1px solid rgba(255, 255, 255, 0.06); position: relative; overflow: hidden;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .claim-progress { position: absolute; bottom: 0; left: 0; height: 3px; transition: width 0.5s linear, background 0.5s ease; }
         .row-ready { border: 1.5px solid rgba(255, 215, 0, 0.4) !important; background: rgba(255, 215, 0, 0.05); }
+        .claim-progress { position: absolute; bottom: 0; left: 0; height: 3px; transition: width 0.5s linear; }
 
         .coin-info-wrapper { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
         .coin-text h2 { font-size: 16px; font-weight: 800; }
@@ -103,13 +63,15 @@
         .btn-claim { background: #ffffff; color: #000; font-weight: 800; font-size: 11px; padding: 11px 18px; border-radius: 12px; min-width: 80px; text-align: center; cursor: pointer; border: none; }
         .timer-badge { color: #ffd700; font-family: monospace; font-size: 11px; font-weight: 800; background: rgba(0, 0, 0, 0.6); padding: 11px 12px; border-radius: 12px; border: 1px solid #ffd700; min-width: 80px; text-align: center; }
 
+        /* --- FOOTER & TABS --- */
         .footer-brand { text-align: center; padding: 40px 0; opacity: 0.5; }
         .footer-brand p { font-size: 10px; letter-spacing: 2px; font-weight: 800; margin-bottom: 4px; }
-        .footer-brand .email-text { font-size: 9px; color: #22d3ee; font-family: monospace; letter-spacing: 1px; }
+        .footer-brand .email-text { font-size: 9px; color: #22d3ee; font-family: monospace; }
 
         .tab-bar { position: fixed; bottom: 30px; left: 24px; right: 24px; height: 70px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; align-items: center; justify-content: space-around; border: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
-        .tab-item { text-align: center; color: #475569; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .tab-item { text-align: center; color: #475569; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; flex: 1; }
         .tab-item.active { color: #22d3ee; transform: translateY(-5px); }
+        .tab-item svg { width: 24px; height: 24px; margin: 0 auto 4px; display: block; }
         .hidden { display: none; }
 
         #claim-bubble {
@@ -128,24 +90,19 @@
     <div class="nav-header" id="header-core">
         <div class="header-top-layout">
             <img src="logo-sobisco.png" alt="S" class="brand-logo">
-            
             <div class="brand-name-container">
-                <h1 class="brand-name">SOBISCO</h1>
-                <p class="slogan">Digital Asset Core</p>
+                <img src="logo-text-sobisco.png" alt="SOBISCO" class="main-text-logo">
             </div>
-            
             <img src="sobisco-coin.png" alt="Coin" class="sobisco-coin">
         </div>
-
-        <div class="ticker-container"><div id="ticker-wrapper" class="ticker-wrapper">FETCHING_LIVE_MARKET...</div></div>
-        
+        <div class="ticker-container"><div id="ticker-wrapper" class="ticker-wrapper">FETCHING_LIVE_CORE...</div></div>
         <div class="status-bar" style="display:flex; justify-content:center; gap:6px; margin-top:8px;">
             <div style="width:6px; height:6px; background:#22d3ee; border-radius:50%; animation:pulse 2s infinite;"></div>
             <span id="status-label" style="font-size:8px; color:#22d3ee; font-family:monospace; font-weight:800;">CONNECTING...</span>
         </div>
     </div>
 
-    <div id="claim-bubble" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">0 READY TO KLAIM</div>
+    <div id="claim-bubble" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">0 READY</div>
 
     <div class="content-area" id="page-mining">
         <div id="ready-harvest-zone">
@@ -157,8 +114,8 @@
             <div id="standby-list"></div>
         </div>
         <div class="footer-brand">
-            <p>©2026 SOBISCO | DIGITAL ASSET CORE</p>
-            <div class="email-text">email: sobisco@proton.me</div>
+            <p>© 2026 SOBISCO | DIGITAL ASSET CORE</p>
+            <div class="email-text">email : sobisco@proton.me</div>
         </div>
     </div>
 
@@ -168,9 +125,15 @@
     </div>
 
     <div class="tab-bar">
-        <div class="tab-item opacity-20"><svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>WALLET</div>
-        <div class="tab-item active" id="tab-mining" onclick="switchTab('mining')"><svg class="w-7 h-7 mx-auto mb-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z"/></svg>MINING</div>
-        <div class="tab-item" id="tab-history" onclick="switchTab('history')"><svg class="w-6 h-6 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>HISTORY</div>
+        <div class="tab-item opacity-20">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>WALLET
+        </div>
+        <div class="tab-item active" id="tab-mining" onclick="switchTab('mining')">
+            <svg fill="currentColor" viewBox="0 0 20 20"><path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z"/></svg>MINING
+        </div>
+        <div class="tab-item" id="tab-history" onclick="switchTab('history')">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>HISTORY
+        </div>
     </div>
 
     <script>
@@ -206,8 +169,7 @@
                 const start = Date.now();
                 const res = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC');
                 const data = await res.json();
-                const end = Date.now();
-                serverTimeOffset = new Date(data.datetime).getTime() - (end - ((end - start) / 2));
+                serverTimeOffset = new Date(data.datetime).getTime() - ((Date.now() + start) / 2);
                 document.getElementById('status-label').innerText = 'CORE_SYNC_OPTIMAL';
                 updatePrices();
             } catch (e) { document.getElementById('status-label').innerText = 'LOCAL_TIME_ACTIVE'; }
@@ -215,18 +177,112 @@
 
         async function updatePrices() {
             try {
-                const uniqueCgIds = [...new Set(coins.map(c => c.cgId))];
-                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${uniqueCgIds.join(',')}&vs_currencies=usd`);
+                const uniqueIds = [...new Set(coins.map(c => c.cgId))].join(',');
+                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${uniqueIds}&vs_currencies=usd`);
                 const data = await res.json();
                 let tickerHtml = "";
-                uniqueCgIds.forEach(id => {
-                    const cInfo = coins.find(c => c.cgId === id);
-                    const symbol = cInfo.id.replace('f_','').toUpperCase();
-                    const price = data[id]?.usd ? data[id].usd.toLocaleString() : '---';
+                [...new Set(coins.map(c => c.cgId))].forEach(cgId => {
+                    const coin = coins.find(c => c.cgId === cgId);
+                    const symbol = coin.id.replace('f_','').toUpperCase();
+                    const price = data[cgId]?.usd ? data[cgId].usd.toLocaleString() : '---';
                     tickerHtml += `${symbol}: $${price} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `;
                 });
                 document.getElementById('ticker-wrapper').innerHTML = tickerHtml + " | SOBISCO LIVE CORE | ";
-            } catch (e) { console.error("Ticker Error", e); }
+            } catch (e) { console.error(e); }
+        }
+
+        function initUI() {
+            const standby = document.getElementById('standby-list');
+            coins.forEach(coin => {
+                standby.insertAdjacentHTML('beforeend', `
+                    <div class="coin-row" id="row-${coin.id}">
+                        <div class="coin-info-wrapper">
+                            <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2585/2585189.png'">
+                            <div class="coin-text">
+                                <h2>${coin.name}</h2>
+                                <p>${coin.host.split('/')[0]}</p>
+                                <span class="est-time" id="est-${coin.id}"></span>
+                            </div>
+                        </div>
+                        <div class="btn-action-wrapper" id="area-${coin.id}"></div>
+                        <div class="claim-progress" id="prog-${coin.id}"></div>
+                    </div>`);
+            });
+        }
+
+        function updateTimers() {
+            const now = Date.now() + serverTimeOffset;
+            let readyCount = 0;
+            const readyList = document.getElementById('ready-list');
+            const standbyList = document.getElementById('standby-list');
+
+            const sortedCoins = coins.map(c => ({
+                ...c, next: parseInt(localStorage.getItem(`claim_${c.id}`)) || 0
+            })).sort((a, b) => a.next - b.next);
+
+            sortedCoins.forEach(coin => {
+                const row = document.getElementById(`row-${coin.id}`);
+                const area = document.getElementById(`area-${coin.id}`);
+                const prog = document.getElementById(`prog-${coin.id}`);
+                const est = document.getElementById(`est-${coin.id}`);
+                const diff = coin.next - now;
+                const openBtn = `<button onclick="secureOpen('https://${coin.host}')" class="btn-open-web">Open</button>`;
+
+                if (diff > 0) {
+                    area.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(diff/60000)}m ${Math.floor((diff%60000)/1000)}s</div>`;
+                    row.classList.remove('row-ready');
+                    if (est) est.innerText = `Matang jam ${new Date(coin.next).getHours().toString().padStart(2,'0')}:${new Date(coin.next).getMinutes().toString().padStart(2,'0')}`;
+                    if (prog) {
+                        prog.style.width = (diff / 3600000 * 100) + '%';
+                        prog.style.background = 'linear-gradient(90deg, transparent, #22d3ee)';
+                    }
+                    standbyList.appendChild(row);
+                } else {
+                    readyCount++;
+                    area.innerHTML = openBtn + `<button onclick="claim('${coin.id}','${coin.name}','${coin.host}')" class="btn-claim">Klaim</button>`;
+                    row.classList.add('row-ready');
+                    if (est) est.innerText = 'STATUS: READY TO CORE';
+                    if (prog) { prog.style.width = '100%'; prog.style.background = '#ffd700'; }
+                    readyList.appendChild(row);
+                }
+            });
+
+            const bubble = document.getElementById('claim-bubble');
+            bubble.innerText = `${readyCount} READY TO KLAIM`;
+            readyCount > 0 ? bubble.classList.add('show') : bubble.classList.remove('show');
+            document.title = readyCount > 0 ? `(${readyCount}) SOBISCO` : 'SOBISCO | DAC';
+            if (readyCount > lastReadyCount && lastReadyCount !== -1) chime.play().catch(()=>{});
+            lastReadyCount = readyCount;
+        }
+
+        function claim(id, name, host) {
+            if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+            chime.play().catch(()=>{});
+            localStorage.setItem(`claim_${id}`, Date.now() + serverTimeOffset + 3600000);
+            const hist = JSON.parse(localStorage.getItem('claim_history') || '[]');
+            hist.push({ name, time: new Date().toLocaleTimeString(), date: new Date().toLocaleDateString() });
+            localStorage.setItem('claim_history', JSON.stringify(hist.slice(-50)));
+            setTimeout(() => { window.open(`https://${host}`, '_blank'); updateTimers(); }, 600);
+        }
+
+        function secureOpen(url) {
+            if (navigator.vibrate) navigator.vibrate(30);
+            setTimeout(() => window.open(url, '_blank'), 500);
+        }
+
+        function switchTab(t) {
+            document.getElementById('page-mining').classList.toggle('hidden', t !== 'mining');
+            document.getElementById('page-history').classList.toggle('hidden', t !== 'history');
+            document.getElementById('tab-mining').classList.toggle('active', t === 'mining');
+            document.getElementById('tab-history').classList.toggle('active', t === 'history');
+            if (t === 'history') {
+                const hist = JSON.parse(localStorage.getItem('claim_history') || '[]');
+                document.getElementById('history-list').innerHTML = hist.slice().reverse().map(i => `
+                    <div class="coin-row" style="opacity:1; transform:scale(1)">
+                        <div class="coin-text"><h2>${i.name}</h2><p>${i.date} | ${i.time}</p></div>
+                        <div class="text-[10px] font-black text-cyan-400">CORE_SUCCESS</div>
+                    </div>`).join('') || '<p class="text-center opacity-30 mt-10">No history found</p>';
+            }
         }
 
         function handleInteractivity(e) {
@@ -241,113 +297,11 @@
             });
         }
 
-        function initUI() {
-            const standbyList = document.getElementById('standby-list');
-            coins.forEach(coin => {
-                const html = `
-                    <div class="coin-row" id="row-${coin.id}">
-                        <div class="coin-info-wrapper">
-                            <img src="https://cryptologos.cc/logos/${coin.logo}-logo.png" class="w-10 h-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2585/2585189.png'">
-                            <div class="coin-text">
-                                <h2>${coin.name}</h2>
-                                <p>${coin.host.split('/')[0]}</p>
-                                <span class="est-time" id="est-${coin.id}"></span>
-                            </div>
-                        </div>
-                        <div class="btn-action-wrapper" id="area-${coin.id}"></div>
-                        <div class="claim-progress" id="prog-${coin.id}"></div>
-                    </div>`;
-                standbyList.insertAdjacentHTML('beforeend', html);
-            });
-        }
-
-        function updateTimers() {
-            const now = Date.now() + serverTimeOffset;
-            let readyCount = 0;
-            const readyList = document.getElementById('ready-list');
-            const standbyList = document.getElementById('standby-list');
-
-            coins.forEach(coin => {
-                const next = parseInt(localStorage.getItem(`claim_${coin.id}`)) || 0;
-                const area = document.getElementById(`area-${coin.id}`);
-                const prog = document.getElementById(`prog-${coin.id}`);
-                const row = document.getElementById(`row-${coin.id}`);
-                const est = document.getElementById(`est-${coin.id}`);
-                const openBtn = `<button onclick="secureOpen('https://${coin.host}')" class="btn-open-web">Open</button>`;
-
-                if (next && now < next) {
-                    const diff = next - now;
-                    area.innerHTML = openBtn + `<div class="timer-badge">${Math.floor(diff/60000)}m ${Math.floor((diff%60000)/1000)}s</div>`;
-                    if (est) est.innerText = `Matang jam ${new Date(next).getHours().toString().padStart(2,'0')}:${new Date(next).getMinutes().toString().padStart(2,'0')}`;
-                    row.classList.remove('row-ready');
-                    if (prog) {
-                        prog.style.width = (diff / 3600000 * 100) + '%';
-                        prog.style.background = 'linear-gradient(90deg, transparent, #22d3ee)';
-                    }
-                    if (!standbyList.contains(row)) standbyList.appendChild(row);
-                } else {
-                    readyCount++;
-                    area.innerHTML = openBtn + `<button onclick="claim('${coin.id}','${coin.name}','${coin.host}')" class="btn-claim">Klaim</button>`;
-                    if (prog) { prog.style.width = '100%'; prog.style.background = '#ffd700'; }
-                    if (est) est.innerText = 'STATUS: READY TO CORE';
-                    row.classList.add('row-ready');
-                    if (readyList && !readyList.contains(row)) readyList.prepend(row);
-                }
-            });
-
-            const bubble = document.getElementById('claim-bubble');
-            bubble.innerText = `${readyCount} READY TO KLAIM`;
-            readyCount > 0 ? bubble.classList.add('show') : bubble.classList.remove('show');
-            document.title = readyCount > 0 ? `(${readyCount}) SOBISCO` : 'SOBISCO | DAC';
-            if (readyCount > lastReadyCount && lastReadyCount !== -1) chime.play().catch(()=>{});
-            lastReadyCount = readyCount;
-        }
-
-        function secureOpen(url) {
-            if (navigator.vibrate) navigator.vibrate(30);
-            setTimeout(() => window.open(url, '_blank'), 500);
-        }
-
-        function claim(id, name, host) {
-            if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
-            chime.play().catch(()=>{});
-            const nextTime = Date.now() + serverTimeOffset + 3600000;
-            localStorage.setItem(`claim_${id}`, nextTime);
-            const hist = JSON.parse(localStorage.getItem('claim_history') || '[]');
-            hist.push({ name, time: new Date().toLocaleTimeString(), date: new Date().toLocaleDateString() });
-            localStorage.setItem('claim_history', JSON.stringify(hist.slice(-50)));
-            setTimeout(() => { window.open(`https://${host}`, '_blank'); updateTimers(); }, 600);
-        }
-
-        function renderHistory() {
-            const hist = JSON.parse(localStorage.getItem('claim_history') || '[]');
-            document.getElementById('history-list').innerHTML = hist.slice().reverse().map(i => `
-                <div class="coin-row" style="opacity:1; transform:scale(1)">
-                    <div class="coin-text"><h2>${i.name}</h2><p>${i.date} | ${i.time}</p></div>
-                    <div class="text-[10px] font-black text-cyan-400">CORE_SUCCESS</div>
-                </div>
-            `).join('') || '<p class="text-center opacity-30 mt-10">No history found</p>';
-        }
-
-        function switchTab(t) {
-            document.getElementById('page-mining').classList.toggle('hidden', t !== 'mining');
-            document.getElementById('page-history').classList.toggle('hidden', t !== 'history');
-            document.getElementById('tab-mining').classList.toggle('active', t === 'mining');
-            document.getElementById('tab-history').classList.toggle('active', t === 'history');
-            if (t === 'history') renderHistory();
-        }
-
         window.addEventListener('scroll', () => {
             document.body.classList.toggle('scrolled', window.scrollY > 40);
-            requestAnimationFrame(() => handleInteractivity({ clientY: lastMouseY }));
         });
 
-        window.onload = () => {
-            syncServerTime();
-            initUI();
-            setInterval(updateTimers, 1000);
-            setInterval(updatePrices, 60000);
-        };
+        window.onload = () => { syncServerTime(); initUI(); setInterval(updateTimers, 1000); setInterval(updatePrices, 60000); };
     </script>
 </body>
 </html>
